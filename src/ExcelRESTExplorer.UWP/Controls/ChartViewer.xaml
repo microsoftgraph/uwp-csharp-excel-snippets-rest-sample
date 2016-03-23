@@ -1,0 +1,57 @@
+﻿<!--  Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
+      See LICENSE in the source repository root for complete license information. -->
+
+<UserControl
+    x:Class="ExcelServiceExplorer.Controls.ChartViewer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ExcelServiceExplorer.Controls"
+    xmlns:vm="using:ExcelServiceExplorer.ViewModel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <vm:NonEmptyStringToVisibilityConverter x:Key="nonEmptyStringToVisibilityConverter" />
+        <vm:NonZeroToVisibilityConverter x:Key="nonZeroToVisibilityConverter" />
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="12"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="WorksheetId" Style="{StaticResource CaptionTextBlockStyle}" Margin="0,3,0,0"/>
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding WorksheetId, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" />
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="ChartId" Style="{StaticResource CaptionTextBlockStyle}" Margin="0,3,0,0" />
+        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding ChartId, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" />
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Name" Style="{StaticResource CaptionTextBlockStyle}" Margin="0,3,0,0" />
+        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Name, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" />
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Top" Style="{StaticResource CaptionTextBlockStyle}" Margin="0,3,0,0" />
+        <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Top, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" />
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Left" Style="{StaticResource CaptionTextBlockStyle}" Margin="0,3,0,0" />
+        <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding Left, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" />
+
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Width" Style="{StaticResource CaptionTextBlockStyle}" Margin="0,3,0,0" />
+        <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding Width, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" />
+
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Height" Style="{StaticResource CaptionTextBlockStyle}" Margin="0,3,0,0" />
+        <TextBlock Grid.Row="6" Grid.Column="2" Text="{Binding Height, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" />
+    </Grid>
+</UserControl>

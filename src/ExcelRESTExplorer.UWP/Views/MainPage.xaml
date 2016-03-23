@@ -1,0 +1,131 @@
+<!--  Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
+      See LICENSE in the source repository root for complete license information. -->
+
+<Page x:Class="ExcelServiceExplorer.Views.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:Behaviors="using:Template10.Behaviors"
+      xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:controls="using:Template10.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:vm="using:ExcelServiceExplorer.ViewModel" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:MainPageViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
+                <VisualState x:Name="VisualStateNarrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Column2.(RelativePanel.Below)"
+                            Value="Column1" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateNormal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for normal view  -->
+                        <Setter Target="Column2.(RelativePanel.RightOf)"
+                            Value="Column1" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateWide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for wide view  -->
+                        <Setter Target="Column2.(RelativePanel.RightOf)"
+                            Value="Column1" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <controls:PageHeader x:Name="pageHeader" Text="Home">
+            <!--  place stretched, across top  -->
+            <RelativePanel.AlignTopWithPanel>True</RelativePanel.AlignTopWithPanel>
+            <RelativePanel.AlignRightWithPanel>True</RelativePanel.AlignRightWithPanel>
+            <RelativePanel.AlignLeftWithPanel>True</RelativePanel.AlignLeftWithPanel>
+        </controls:PageHeader>
+
+        <ScrollViewer Margin="16,0,0,0" Padding="0,0,0,20">
+            <RelativePanel.Below>pageHeader</RelativePanel.Below>
+            <RelativePanel.AlignLeftWithPanel>true</RelativePanel.AlignLeftWithPanel>
+            <RelativePanel.AlignRightWithPanel>true</RelativePanel.AlignRightWithPanel>
+            <RelativePanel.AlignBottomWithPanel>true</RelativePanel.AlignBottomWithPanel>
+            <RelativePanel HorizontalAlignment="Stretch">
+                <StackPanel x:Name="Column1" Width="280">
+                    <StackPanel Margin="0,8,0,0">
+                        <TextBlock Text="User" Style="{StaticResource SubtitleTextBlockStyle}" />
+                        <HyperlinkButton x:Name="GetUser" Content="Get user" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,8,0,0">
+                        <TextBlock Text="File" Style="{StaticResource SubtitleTextBlockStyle}" />
+                        <HyperlinkButton x:Name="UploadFile" Content="Upload file" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                        <HyperlinkButton x:Name="GetItemMetadata" Content="Get Item Metadata" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,8,0,0">
+                        <TextBlock Text="Session" Style="{StaticResource SubtitleTextBlockStyle}" />
+                        <HyperlinkButton x:Name="CreateSession" Content="Create session" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                        <HyperlinkButton x:Name="CloseSession" Content="Close session" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,8,0,0">
+                        <TextBlock Text="Application" Style="{StaticResource SubtitleTextBlockStyle}" />
+                        <HyperlinkButton x:Name="Calculate" Content="Calculate" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,8,0,0">
+                        <TextBlock Text="Worksheets" Style="{StaticResource SubtitleTextBlockStyle}"  />
+                        <HyperlinkButton x:Name="ListWorksheets" Content="List worksheets" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                        <HyperlinkButton x:Name="AddWorksheet" Content="Add worksheet" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                        <HyperlinkButton x:Name="WorksheetGetUsedRange" Content="Get used range" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,8,0,0">
+                        <TextBlock Text="Ranges" Style="{StaticResource SubtitleTextBlockStyle}" />
+                        <HyperlinkButton x:Name="GetRange" Content="Get range" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                        <HyperlinkButton x:Name="UpdateRange" Content="Update range" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                    </StackPanel>
+                </StackPanel>
+                
+                <StackPanel x:Name="Column2" Width="280">
+                    <StackPanel Margin="0,8,0,0">
+                        <TextBlock Text="Tables" Style="{StaticResource SubtitleTextBlockStyle}" />
+                        <HyperlinkButton x:Name="ListTables" Content="List tables" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                        <HyperlinkButton x:Name="AddTable" Content="Add table" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                        <HyperlinkButton x:Name="UpdateTable" Content="Update table" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                        <HyperlinkButton x:Name="AddTableRow" Content="Add table row" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                        <HyperlinkButton x:Name="AddTableColumn" Content="Add table column" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                        <HyperlinkButton x:Name="GetTableHeaderRowRange" Content="Get table header row range" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                        <HyperlinkButton x:Name="GetTableDataBodyRange" Content="Get table data body range" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,8,0,0">
+                        <TextBlock Text="Charts" Style="{StaticResource SubtitleTextBlockStyle}" />
+                        <HyperlinkButton x:Name="ListCharts" Content="List Charts" Click="{x:Bind ViewModel.GotoApiPage}" HorizontalAlignment="Left" />
+                        <HyperlinkButton x:Name="AddChart" Content="Add Chart" Click="{x:Bind ViewModel.GotoApiPage}" HorizontalAlignment="Left" />
+                        <HyperlinkButton x:Name="GetChart" Content="Get Chart" Click="{x:Bind ViewModel.GotoApiPage}" HorizontalAlignment="Left" />
+                        <HyperlinkButton x:Name="GetChartTitle" Content="Get Chart Title" Click="{x:Bind ViewModel.GotoApiPage}" HorizontalAlignment="Left" />
+                        <HyperlinkButton x:Name="GetChartImage" Content="Get Chart Image" Click="{x:Bind ViewModel.GotoApiPage}" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </StackPanel>
+            </RelativePanel>
+        </ScrollViewer>
+    </RelativePanel>
+</Page>
+

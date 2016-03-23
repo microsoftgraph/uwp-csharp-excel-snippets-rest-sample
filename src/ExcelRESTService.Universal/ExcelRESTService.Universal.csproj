@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EAAEDE6F-C2FF-45E9-8996-9B7C55CB96CC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ExcelRESTService.Universal</RootNamespace>
+    <AssemblyName>ExcelRESTService.Universal</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile32</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <TargetPlatform Include="Windows, Version=8.1" />
+    <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\ExcelRESTService.UWP\Common\ObservableDictionary.cs">
+      <Link>Common\ObservableDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ExcelRESTService.cs">
+      <Link>ExcelRESTService.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\Chart.cs">
+      <Link>Model\Chart.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\ChartApi.cs">
+      <Link>Model\ChartApi.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\ChartTitle.cs">
+      <Link>Model\ChartTitle.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\EdmString.cs">
+      <Link>Model\EdmString.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\IRestApi.cs">
+      <Link>Model\IRestApi.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\Item.cs">
+      <Link>Model\Item.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\ItemApi.cs">
+      <Link>Model\ItemApi.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\KeyValue.cs">
+      <Link>Model\KeyValue.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\Range.cs">
+      <Link>Model\Range.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\RangeApi.cs">
+      <Link>Model\RangeApi.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\Request.cs">
+      <Link>Model\Request.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\Response.cs">
+      <Link>Model\Response.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\RestApi.cs">
+      <Link>Model\RestApi.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\SessionInfo.cs">
+      <Link>Model\SessionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\Table.cs">
+      <Link>Model\Table.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\TableApi.cs">
+      <Link>Model\TableApi.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\TableRow.cs">
+      <Link>Model\TableRow.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\User.cs">
+      <Link>Model\User.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\UserApi.cs">
+      <Link>Model\UserApi.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\WorkbookApi.cs">
+      <Link>Model\WorkbookApi.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\Worksheet.cs">
+      <Link>Model\Worksheet.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\WorksheetApi.cs">
+      <Link>Model\WorksheetApi.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\OneDriveService.cs">
+      <Link>OneDriveService.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\RESTService.cs">
+      <Link>RESTService.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\UserService.cs">
+      <Link>UserService.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ViewModel\ChartApiViewModel.cs">
+      <Link>ViewModel\ChartApiViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ViewModel\DelegateCommand.cs">
+      <Link>ViewModel\DelegateCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ViewModel\ItemApiViewModel.cs">
+      <Link>ViewModel\ItemApiViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ViewModel\RangeApiViewModel.cs">
+      <Link>ViewModel\RangeApiViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ViewModel\RequestViewModel.cs">
+      <Link>ViewModel\RequestViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ViewModel\ResponseViewModel.cs">
+      <Link>ViewModel\ResponseViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ViewModel\RestApiViewModel.cs">
+      <Link>ViewModel\RestApiViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ViewModel\RestApiViewModelFactory.cs">
+      <Link>ViewModel\RestApiViewModelFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ViewModel\TableApiViewModel.cs">
+      <Link>ViewModel\TableApiViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ViewModel\UserApiViewModel.cs">
+      <Link>ViewModel\UserApiViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ViewModel\ViewModelBase.cs">
+      <Link>ViewModel\ViewModelBase.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ViewModel\WorkbookApiViewModel.cs">
+      <Link>ViewModel\WorkbookApiViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ViewModel\WorksheetApiViewModel.cs">
+      <Link>ViewModel\WorksheetApiViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\WebService.cs">
+      <Link>WebService.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.ApplicationInsights, Version=1.2.3.490, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.1.2.3\lib\portable-win81+wpa81\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

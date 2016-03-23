@@ -1,0 +1,83 @@
+﻿<!--  Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
+      See LICENSE in the source repository root for complete license information. -->
+
+<Page x:Class="ExcelServiceExplorer.Views.GetTableDataBodyRange"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Template10.Controls"
+      xmlns:explorerControls="using:ExcelServiceExplorer.Controls"
+      xmlns:vm="using:ExcelServiceExplorer.ViewModel" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:ExcelApiPageViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
+                <VisualState x:Name="VisualStateNarrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for narrow view  -->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateNormal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for normal view  -->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateWide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for wide view  -->
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <!--  header  -->
+        <controls:PageHeader x:Name="pageHeader" Frame="{x:Bind Frame}" Text="{x:Bind ViewModel.Request.Api.Title}">
+            <!--  place stretched, across top  -->
+            <RelativePanel.AlignTopWithPanel>True</RelativePanel.AlignTopWithPanel>
+            <RelativePanel.AlignRightWithPanel>True</RelativePanel.AlignRightWithPanel>
+            <RelativePanel.AlignLeftWithPanel>True</RelativePanel.AlignLeftWithPanel>
+        </controls:PageHeader>
+
+        <!--  content  -->
+        <ScrollViewer Padding="16,8,20,20" VerticalScrollBarVisibility="Auto">
+            <!--  place below page header  -->
+            <RelativePanel.Below>pageHeader</RelativePanel.Below>
+            <RelativePanel.AlignLeftWithPanel>True</RelativePanel.AlignLeftWithPanel>
+            <RelativePanel.AlignRightWithPanel>True</RelativePanel.AlignRightWithPanel>
+            <RelativePanel.AlignBottomWithPanel>True</RelativePanel.AlignBottomWithPanel>
+            <StackPanel>
+                <TextBlock Text="{x:Bind ViewModel.Request.Api.Description}" MaxWidth="800" HorizontalAlignment="Left" Style="{StaticResource BodyTextBlockStyle}" />
+                <explorerControls:IdNameEntry x:Name="IdName" IdOnly="True" Margin="0,8,0,0" 
+                    ItemId="{Binding Request.Api.ItemId, Mode=TwoWay}"
+                    ItemPath="{Binding Request.Api.ItemPath, Mode=TwoWay}"
+                    ItemName="{Binding Request.Api.ItemName, Mode=TwoWay}"/>
+                <TextBox x:Name="TableName" 
+                             Text="{Binding Request.Api.TableId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Width="320" HorizontalAlignment="Left" PlaceholderText="table name" Margin="0,8,0,0"/>
+                <TextBox x:Name="QueryParameters" Margin="0,8,0,0" Width="320" HorizontalAlignment="Left" PlaceholderText="query parameters"
+                             Text="{Binding Request.Api.QueryParameters, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button x:Name="Run" Content="Run" Margin="0,8,0,0" Command="{x:Bind ViewModel.Request.Api.InvokeCommand}"/>
+                <explorerControls:RequestViewer DataContext="{x:Bind ViewModel.Request,Mode=OneWay}" />
+                <explorerControls:ResponseViewer DataContext="{x:Bind ViewModel.Response,Mode=OneWay}" />
+                <TextBlock Text="Result" Style="{StaticResource SubtitleTextBlockStyle}" Margin="0,8,0,0"/>
+                <explorerControls:RangeViewer DataContext="{Binding Response.Result, Mode=OneWay}" Margin="0,8,0,0" />
+            </StackPanel>
+        </ScrollViewer>
+    </RelativePanel>
+</Page>
