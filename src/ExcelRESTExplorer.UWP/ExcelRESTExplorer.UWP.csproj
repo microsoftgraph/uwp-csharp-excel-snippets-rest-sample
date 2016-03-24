@@ -113,6 +113,9 @@
     <Compile Include="Controls\IdNameEntry.xaml.cs">
       <DependentUpon>IdNameEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ImageFromString.xaml.cs">
+      <DependentUpon>ImageFromString.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ItemViewer.xaml.cs">
       <DependentUpon>ItemViewer.xaml</DependentUpon>
     </Compile>
@@ -249,6 +252,10 @@
     <Page Include="Controls\IdNameEntry.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ImageFromString.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ItemViewer.xaml">
       <Generator>MSBuild:Compile</Generator>

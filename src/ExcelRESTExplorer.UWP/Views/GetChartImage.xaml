@@ -77,7 +77,7 @@
                 <explorerControls:RequestViewer DataContext="{x:Bind ViewModel.Request,Mode=OneWay}" />
                 <explorerControls:ResponseViewer DataContext="{x:Bind ViewModel.Response,Mode=OneWay}" />
                 <TextBlock Text="Result" Style="{StaticResource SubtitleTextBlockStyle}" Margin="0,8,0,0"/>
-                <!--<Image x:Name="Image" Margin="0,8,0,0"/>-->
+                <explorerControls:ImageFromString x:Name="Image" Source="{x:Bind ViewModel.Response.Result, Mode=OneWay}" Margin="0,8,0,0"/>
             </StackPanel>
         </ScrollViewer>
     </RelativePanel>
