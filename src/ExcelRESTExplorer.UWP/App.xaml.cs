@@ -29,8 +29,7 @@ namespace ExcelServiceExplorer
         // Azure AD Authentication Settings
 
         // The Client ID is used by the application to uniquely identify itself to Azure AD.
-        //public const string ClientId = "67c64841-9567-4a6b-aec3-e34e7677ee9d"; // PROD
-        public const string ClientId = "c9908102-b0aa-4077-8c26-856684cf799e"; // PROD (Groups)
+        public const string ClientId = "67c64841-9567-4a6b-aec3-e34e7677ee9d"; // PROD
 
         // const string tenant = "yourtenant.onmicrosoft.com";
         // const string authority = "https://login.microsoftonline.com/" + tenant;
