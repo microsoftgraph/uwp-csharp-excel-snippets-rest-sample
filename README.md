@@ -1,7 +1,7 @@
 # Excel REST API Explorer
 
 This sample is a [Universal Windows Platform](http://dev.windows.com) application that demonstrates how to use the [Excel REST API](https://github.com/OfficeDev/microsoft-graph-docs/tree/beta) 
-to access Excel workbooks stored in OneDrive for Business and SharePoint Online using the Office Graph from a native application. Please note that the Excel REST API is release in beta and that 
+to access Excel workbooks stored in OneDrive for Business and SharePoint Online using the Office Graph from a native application. Please note that the Excel REST API is released in beta and that 
 the sample only shows how to make a smaller subset of the requests that can be made using the Excel REST API. Check the documentation for other things you can do with the API.
 
 ## Prerequisites ##
