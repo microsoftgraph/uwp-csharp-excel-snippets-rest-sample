@@ -78,11 +78,11 @@
                         <HyperlinkButton x:Name="GetItemMetadata" Content="Get Item Metadata" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
                     </StackPanel>
 
-                    <!--<StackPanel Margin="0,8,0,0">
+                    <StackPanel Margin="0,8,0,0">
                         <TextBlock Text="Session" Style="{StaticResource SubtitleTextBlockStyle}" />
                         <HyperlinkButton x:Name="CreateSession" Content="Create session" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
                         <HyperlinkButton x:Name="CloseSession" Content="Close session" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
-                    </StackPanel>-->
+                    </StackPanel>
 
                     <StackPanel Margin="0,8,0,0">
                         <TextBlock Text="Application" Style="{StaticResource SubtitleTextBlockStyle}" />
