@@ -10,7 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Windows.Data.Json;
+using Newtonsoft.Json.Linq;
+
+using Office365Service;
 
 namespace Microsoft.ExcelServices
 {
@@ -32,15 +34,15 @@ namespace Microsoft.ExcelServices
                 LastId = id;
             }
         }
-        public bool PersistChanges { get; set; }
+        public bool? PersistChanges { get; set; }
         #endregion
 
         #region Methods
-        public static SessionInfo MapFromJson(JsonObject json)
+        public static SessionInfo MapFromJson(JObject json)
         {
             var sessionInfo = new SessionInfo();
-            sessionInfo.Id = json.GetNamedString("id");
-            sessionInfo.PersistChanges = json.GetNamedBoolean("persistChanges");
+            sessionInfo.Id = RestApi.MapStringFromJson(json, "id");
+            sessionInfo.PersistChanges = RestApi.MapBooleanFromJson(json, "persistChanges");
             return sessionInfo;
         }
         #endregion

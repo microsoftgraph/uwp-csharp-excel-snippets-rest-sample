@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Windows.Data.Json;
+using Newtonsoft.Json.Linq;
 
 using Office365Service.OneDrive;
 
@@ -125,7 +125,7 @@ namespace Office365Service.Excel
         #endregion
 
         #region Mapping
-        protected override object MapResult(JsonObject jsonResult)
+        protected override object MapResult(JObject jsonResult)
         {
             object result;
             switch (ResultType?.Name)
@@ -145,9 +145,9 @@ namespace Office365Service.Excel
                     return result;
                 case "Worksheet[]":
                     var worksheets = new List<Worksheet>();
-                    foreach (var jsonWorksheet in jsonResult.GetNamedArray("value"))
+                    foreach (var jsonWorksheet in jsonResult.GetValue("value"))
                     {
-                        worksheets.Add(Worksheet.MapFromJson(jsonWorksheet.GetObject()));
+                        worksheets.Add(Worksheet.MapFromJson(jsonWorksheet.ToObject<JObject>()));
                     }
                     LogResult(worksheets);
                     return worksheets.ToArray();
@@ -157,9 +157,9 @@ namespace Office365Service.Excel
                     return result;
                 case "Table[]":
                     var tables = new List<Table>();
-                    foreach (var jsonTable in jsonResult.GetNamedArray("value"))
+                    foreach (var jsonTable in jsonResult.GetValue("value"))
                     {
-                        tables.Add(Table.MapFromJson(jsonTable.GetObject()));
+                        tables.Add(Table.MapFromJson(jsonTable.ToObject<JObject>()));
                     }
                     LogResult(tables);
                     return tables.ToArray();
@@ -173,9 +173,9 @@ namespace Office365Service.Excel
                     return result;
                 case "Chart[]":
                     var charts = new List<Chart>();
-                    foreach (var jsonChart in jsonResult.GetNamedArray("value"))
+                    foreach (var jsonChart in jsonResult.GetValue("value"))
                     {
-                        charts.Add(Chart.MapFromJson(jsonChart.GetObject()));
+                        charts.Add(Chart.MapFromJson(jsonChart.ToObject<JObject>()));
                     }
                     LogResult(charts);
                     return charts.ToArray();

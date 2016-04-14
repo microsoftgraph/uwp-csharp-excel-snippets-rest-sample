@@ -13,7 +13,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.IO;
 
-using Windows.Data.Json;
+using Newtonsoft.Json.Linq;
 
 using Office365Service.ViewModel;
 using Office365Service.Model;
@@ -67,7 +67,7 @@ namespace Office365Service
         #region Http Requests
         
         // GET
-        public async Task<JsonObject> GetAsync(Uri requestUri, ObservableDictionary headers)
+        public async Task<JObject> GetAsync(Uri requestUri, ObservableDictionary headers)
         {
             HttpClient httpClient = await this.GetWebRequestAsync(requestUri);
             AddHeaders(httpClient, headers);
@@ -82,11 +82,11 @@ namespace Office365Service
             EnsureSuccessStatusCode(requestUri.LocalPath, httpResponse);
 
             // Read and parse the response
-            return JsonObject.Parse(responseText);
+            return JObject.Parse(responseText);
         }
         
         // POST
-        public async Task<JsonObject> PostAsync(Uri requestUri, ObservableDictionary headers, string body)
+        public async Task<JObject> PostAsync(Uri requestUri, ObservableDictionary headers, string body)
         {
             HttpClient httpClient = await this.GetWebRequestAsync(requestUri);
             AddHeaders(httpClient, headers);
@@ -105,16 +105,16 @@ namespace Office365Service
             // Parse the response
             if ((responseText != null) && (responseText != string.Empty))
             {
-                return JsonObject.Parse(responseText);
+                return JObject.Parse(responseText);
             }
             else
             {
-                return new JsonObject();
+                return new JObject();
             }
         }
 
         // PUT
-        public async Task<JsonObject> PutAsync(Uri requestUri, ObservableDictionary headers, Stream stream)
+        public async Task<JObject> PutAsync(Uri requestUri, ObservableDictionary headers, Stream stream)
         {
             HttpClient httpClient = await this.GetWebRequestAsync(requestUri);
             AddHeaders(httpClient, headers);
@@ -134,16 +134,16 @@ namespace Office365Service
             // Parse the response
             if ((responseText != null) && (responseText != string.Empty))
             {
-                return JsonObject.Parse(responseText);
+                return JObject.Parse(responseText);
             }
             else
             {
-                return new JsonObject();
+                return new JObject();
             }
         }
 
         // Patch
-        public async Task<JsonObject> PatchAsync(Uri requestUri, ObservableDictionary headers, string body)
+        public async Task<JObject> PatchAsync(Uri requestUri, ObservableDictionary headers, string body)
         {
             HttpClient httpClient = await this.GetWebRequestAsync(requestUri);
             AddHeaders(httpClient, headers);
@@ -160,7 +160,7 @@ namespace Office365Service
             EnsureSuccessStatusCode(requestUri.LocalPath, httpResponse);
 
             // Parse the response
-            return JsonObject.Parse(responseText);
+            return JObject.Parse(responseText);
         }
         
         #endregion
@@ -172,11 +172,6 @@ namespace Office365Service
             var accessToken = await _getAccessTokenAsync();
             if (accessToken != null)
             {
-                ///TODO: Need to set cache policy on the request
-                //var filter = new HttpBaseProtocolFilter();
-                //filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
-
-                //var httpClient = new HttpClient(filter);
                 var httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
                 return httpClient;

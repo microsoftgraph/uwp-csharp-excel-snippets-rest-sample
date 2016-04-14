@@ -30,8 +30,8 @@ namespace ExcelRESTService.UnitTests.UWP
             var values =
                 new object[]
                 {
-                        new object[] { "A", (Double)1 },
-                        new object[] { "B", (Double)2 }
+                        new object[] { "A", (int)1 },
+                        new object[] { "B", (int)2 }
                 };
             // Act
             var range = await App.ExcelService.GetRangeAsync(item.Id, "Sheet3", "A2:B3");
@@ -73,9 +73,9 @@ namespace ExcelRESTService.UnitTests.UWP
             var values =
                 new object[]
                 {
-                        new object[] { "D", (Double)4 },
-                        new object[] { "E", (Double)5 },
-                        new object[] { "F", (Double)6 }
+                        new object[] { "D", (Double)4.5 },
+                        new object[] { "E", (int)5 },
+                        new object[] { "F", (Double)6.5 }
                 };
             // Act
             var range = await App.ExcelService.UpdateRangeAsync(item.Id, "Sheet3", "A2:B4", values);

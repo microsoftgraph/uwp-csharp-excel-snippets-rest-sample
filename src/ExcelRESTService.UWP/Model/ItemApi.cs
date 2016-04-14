@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Windows.Data.Json;
+using Newtonsoft.Json.Linq;
 
 using Microsoft.OneDrive;
 
@@ -97,7 +97,7 @@ namespace Office365Service.OneDrive
         #endregion
 
             #region Mapping
-        protected override object MapResult(JsonObject jsonResult)
+        protected override object MapResult(JObject jsonResult)
         {
             if (ResultType != null)
             {

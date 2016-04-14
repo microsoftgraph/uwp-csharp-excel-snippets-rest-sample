@@ -10,23 +10,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Windows.Data.Json;
+using Newtonsoft.Json.Linq;
+using Office365Service;
 
 namespace Microsoft.ExcelServices
 {
     public class TableRow
     {
         #region Properties
-        public int Index { get; set; }
+        public int? Index { get; set; }
         public object[][] Values { get; set; }
         #endregion
 
         #region Methods
-        public static TableRow MapFromJson(JsonObject json)
+        public static TableRow MapFromJson(JObject json)
         {
             var row = new TableRow();
-            row.Index = (int)json.GetNamedNumber("index");
-            row.Values = Range.MapValuesFromJson(json, "values");
+            row.Index = (int?)RestApi.MapNumberFromJson(json, "index");
+            row.Values = RestApi.MapValuesFromJson(json, "values");
             return row;
         }
         #endregion

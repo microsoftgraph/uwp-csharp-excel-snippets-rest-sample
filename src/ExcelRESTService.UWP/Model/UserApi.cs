@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Windows.Data.Json;
+using Newtonsoft.Json.Linq;
 
 using Office365Service;
 
@@ -41,7 +41,7 @@ namespace Office365Service.User
         #endregion
 
         #region Mapping
-        protected override object MapResult(JsonObject jsonResult)
+        protected override object MapResult(JObject jsonResult)
         {
             object result;
             switch (ResultType.Name)

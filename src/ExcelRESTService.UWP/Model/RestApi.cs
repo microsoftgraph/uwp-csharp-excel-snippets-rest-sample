@@ -8,10 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using System.IO;
 
-using Windows.Data.Json;
+using Newtonsoft.Json.Linq;
 
 using Office365Service;
 using Office365Service.ViewModel;
@@ -66,11 +65,11 @@ namespace Office365Service
         // BodyProperties
         public ObservableDictionary BodyProperties { get; set; }
         // BodyAsJson
-        public JsonObject BodyAsJson
+        public JObject BodyAsJson
         {
             get
             {
-                var bodyJson = new JsonObject();
+                var bodyJson = new JObject();
                 foreach (var key in BodyProperties.Keys)
                 {
                     var value = BodyProperties[key];
@@ -79,13 +78,16 @@ namespace Office365Service
                         switch (value.GetType().Name)
                         {
                             case "String":
-                                bodyJson.Add(key, JsonValue.CreateStringValue((string)value));
+                                //bodyJson.Add(key, JsonValue.CreateStringValue((string)value));
+                                bodyJson.Add(key, (string)value);
                                 break;
                             case "Boolean":
-                                bodyJson.Add(key, JsonValue.CreateBooleanValue((bool)value));
+                                //bodyJson.Add(key, JsonValue.CreateBooleanValue((bool)value));
+                                bodyJson.Add(key, (bool)value);
                                 break;
                             case "Int32":
-                                bodyJson.Add(key, JsonValue.CreateNumberValue((int)value));
+                                //bodyJson.Add(key, JsonValue.CreateNumberValue((int)value));
+                                bodyJson.Add(key, (int)value);
                                 break;
                             case "Object[]":
                                 bodyJson.Add(key, MapValuesToJson((object[])value));
@@ -105,7 +107,7 @@ namespace Office365Service
             {
                 if ((Method == "POST") || (Method == "PATCH"))
                 {
-                    return BodyAsJson.Stringify();
+                    return BodyAsJson.ToString();
                 }
                 else if (Method == "PUT")
                 {
@@ -158,7 +160,7 @@ namespace Office365Service
         #endregion
 
         #region Mapping
-        protected virtual object MapResult(JsonObject jsonResult)
+        protected virtual object MapResult(JObject jsonResult)
         {
             if (ResultType != null)
             {
@@ -181,11 +183,12 @@ namespace Office365Service
         #endregion
 
         #region Map values to/from Json
-        public static string MapStringFromJson(JsonObject json, string name)
+        public static string MapStringFromJson(JObject json, string name)
         {
-            if (json.ContainsKey(name))
+            JToken token = null;
+            if (json.TryGetValue(name, out token))
             {
-                return json.GetNamedString(name);
+                return token.Value<string>();
             }
             else
             {
@@ -193,11 +196,12 @@ namespace Office365Service
             }
         }
 
-        public static double? MapNumberFromJson(JsonObject json, string name)
+        public static double? MapNumberFromJson(JObject json, string name)
         {
-            if (json.ContainsKey(name))
+            JToken token = null;
+            if (json.TryGetValue(name, out token))
             {
-                return json.GetNamedNumber(name);
+                return token.Value<double>();
             }
             else
             {
@@ -205,14 +209,67 @@ namespace Office365Service
             }
         }
 
-        private static JsonArray MapValuesToJson(object[] values)
+        public static bool? MapBooleanFromJson(JObject json, string name)
         {
-            var jsonValues = new JsonArray();
+            JToken token = null;
+            if (json.TryGetValue(name, out token))
+            {
+                return token.Value<bool>();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static object[][] MapValuesFromJson(JObject json, string name)
+        {
+            JToken token = null;
+
+            if (json.TryGetValue(name, out token))
+            {
+                var rows = new List<object[]>();
+                foreach (var jsonRow in token)
+                {
+                    var row = new List<object>();
+                    foreach (var value in jsonRow)
+                    {
+                        switch (value.Type)
+                        {
+                            case JTokenType.String:
+                                row.Add((string)(value));
+                                break;
+                            case JTokenType.Float:
+                                row.Add((double)(value));
+                                break;
+                            case JTokenType.Integer:
+                                row.Add((int)(value));
+                                break;
+                            case JTokenType.Boolean:
+                                row.Add((bool)(value));
+                                break;
+                            default:
+                                throw new ArgumentException("Unknown value type");
+                        }
+                    }
+                    rows.Add(row.ToArray());
+                }
+                return rows.ToArray();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private static JArray MapValuesToJson(object[] values)
+        {
+            var jsonValues = new JArray();
             if (values != null)
             {
                 foreach (object[] row in values)
                 {
-                    var jsonRowValues = new JsonArray();
+                    var jsonRowValues = new JArray();
                     foreach (var value in row)
                     {
                         if (value != null)
@@ -220,16 +277,20 @@ namespace Office365Service
                             switch (value.GetType().Name)
                             {
                                 case "String":
-                                    jsonRowValues.Add(JsonValue.CreateStringValue((string)value));
+                                    //jsonRowValues.Add(JsonValue.CreateStringValue((string)value));
+                                    jsonRowValues.Add((string)value);
                                     break;
                                 case "Double":
-                                    jsonRowValues.Add(JsonValue.CreateNumberValue((double)value));
+                                    //jsonRowValues.Add(JsonValue.CreateNumberValue((double)value));
+                                    jsonRowValues.Add((double)value);
                                     break;
                                 case "Int32":
-                                    jsonRowValues.Add(JsonValue.CreateNumberValue((Int32)value));
+                                    //jsonRowValues.Add(JsonValue.CreateNumberValue((Int32)value));
+                                    jsonRowValues.Add((Int32)value);
                                     break;
                                 case "Boolean":
-                                    jsonRowValues.Add(JsonValue.CreateBooleanValue((bool)value));
+                                    //jsonRowValues.Add(JsonValue.CreateBooleanValue((bool)value));
+                                    jsonRowValues.Add((bool)value);
                                     break;
                                 default:
                                     throw new ArgumentException($"Unknown type: {value.GetType().Name}");
@@ -237,7 +298,8 @@ namespace Office365Service
                         }
                         else
                         {
-                            jsonRowValues.Add(JsonValue.Parse("null"));
+                            //jsonRowValues.Add(JValue.Parse("null"));
+                            jsonRowValues.Add(null);
                         }
                     }
                     jsonValues.Add(jsonRowValues);

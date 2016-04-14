@@ -10,7 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Windows.Data.Json;
+using Newtonsoft.Json.Linq;
+
+using Office365Service;
 
 namespace Microsoft.User
 {
@@ -22,11 +24,11 @@ namespace Microsoft.User
         #endregion
 
         #region Methods
-        public static User MapFromJson(JsonObject json)
+        public static User MapFromJson(JObject json)
         {
             var user = new User();
-            user.Id = json.GetNamedString("id");
-            user.DisplayName = json.GetNamedString("displayName");
+            user.Id = RestApi.MapStringFromJson(json, "id");
+            user.DisplayName = RestApi.MapStringFromJson(json, "displayName");
             return user;
         }
         #endregion
