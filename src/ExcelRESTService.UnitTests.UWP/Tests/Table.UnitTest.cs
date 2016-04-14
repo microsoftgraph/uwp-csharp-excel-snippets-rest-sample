@@ -40,6 +40,8 @@ namespace ExcelRESTService.UnitTests.UWP
             // Act
             var table = await App.ExcelService.AddTableAsync(item.Id, "Sheet3!A1:B4", true);
 
+            await Task.Delay(30000);
+
             // Assert
             Assert.AreEqual("Table2", table.Name, "Name of new table is now 'Table2'");
 
@@ -90,6 +92,8 @@ namespace ExcelRESTService.UnitTests.UWP
             Assert.AreEqual(((object[])(values[0]))[4], row.Values[0][4], $"Fifth column is not {((object[])(values[0]))[4]}");
             // TODO: Check value of calculated column
 
+            await Task.Delay(30000);
+
             var dataBodyRange = await App.ExcelService.GetTableDataBodyRangeAsync(item.Id, tableName);
             Assert.AreEqual(27, dataBodyRange.RowCount, "Table does not have 1 more row");
         }
@@ -120,6 +124,9 @@ namespace ExcelRESTService.UnitTests.UWP
                 Assert.AreEqual(((object[])(values[0]))[4], row.Values[0][4], $"Fifth column is not {((object[])(values[0]))[4]}");
                 // TODO: Check value of calculated column
             }
+
+            await Task.Delay(30000);
+
             // Assert
             var dataBodyRange = await App.ExcelService.GetTableDataBodyRangeAsync(item.Id, tableName);
             Assert.AreEqual(36, dataBodyRange.RowCount, "Table does not have 10 more rows");

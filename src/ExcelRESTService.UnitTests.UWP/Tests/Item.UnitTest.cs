@@ -5,6 +5,8 @@
 
 using System;
 using System.Threading.Tasks;
+using System.IO;
+
 using Windows.Storage;
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
@@ -27,7 +29,7 @@ namespace ExcelRESTService.UnitTests.UWP
             var fileToUpload = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Content/template.xlsx"));
             using (var fileStream = await fileToUpload.OpenReadAsync())
             {
-                item = await App.OneDriveService.UploadFileAsync("", filename, fileStream);
+                item = await App.OneDriveService.UploadFileAsync("", filename, WindowsRuntimeStreamExtensions.AsStream(fileStream));
             }
             // Assert
             Assert.AreNotEqual(string.Empty, item.Id, "Item Id is blank");

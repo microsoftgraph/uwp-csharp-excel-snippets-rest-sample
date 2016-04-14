@@ -42,6 +42,8 @@ namespace ExcelRESTService.UnitTests.UWP
             var worksheet = await App.ExcelService.AddWorksheetAsync(item.Id, newSheetName);
 
             // Assert
+            await Task.Delay(30000);
+
             var worksheets = await App.ExcelService.ListWorksheetsAsync(item.Id);
             Assert.AreEqual(4, worksheets.Length, "Count of worksheets is not 4");
             Assert.AreEqual("Sheet1", worksheets[0].Name, "First worksheet is not named 'Sheet1'");

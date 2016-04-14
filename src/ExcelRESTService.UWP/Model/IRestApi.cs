@@ -8,10 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using System.IO;
 
 using Windows.Data.Json;
-using Windows.Storage.Streams;
 
 namespace Office365Service
 {
@@ -19,6 +18,7 @@ namespace Office365Service
     {
         #region Constructor
         #endregion
+
         #region Properties
         RESTService Service { get; set; }
         string Title { get; set; }
@@ -31,10 +31,11 @@ namespace Office365Service
         ObservableDictionary BodyProperties { get; set; }
         JsonObject BodyAsJson { get; }
         string BodyAsText { get; }
-        IRandomAccessStreamWithContentType FileStream { get; set; }
+        Stream FileStream { get; set; }
         Type ResultType { get; set; }
         Uri RequestUri { get; set; }
         #endregion
+        
         #region Methods
         Task<object> InvokeAsync();
         #endregion
