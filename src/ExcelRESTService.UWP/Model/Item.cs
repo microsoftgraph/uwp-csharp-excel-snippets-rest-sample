@@ -9,7 +9,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Data.Json;
+
+using Newtonsoft.Json.Linq;
+
+using Office365Service;
 
 namespace Microsoft.OneDrive
 {
@@ -24,22 +27,20 @@ namespace Microsoft.OneDrive
         public DateTime LastModifiedDateTime { get; set; }
         public int Size { get; set; }
         public string WebUrl { get; set; }
-        //public string WebDavUrl { get; set; }
         #endregion
 
         #region Methods
-        public static Item MapFromJson(JsonObject json)
+        public static Item MapFromJson(JObject json)
         {
             var item = new Item();
-            item.Id = json.GetNamedString("id");
-            item.Name = json.GetNamedString("name");
-            item.CTag = json.GetNamedString("cTag");
-            item.ETag = json.GetNamedString("eTag");
-            item.CreatedDateTime = DateTime.Parse(json.GetNamedString("createdDateTime")).ToLocalTime();
-            item.LastModifiedDateTime = DateTime.Parse(json.GetNamedString("lastModifiedDateTime")).ToLocalTime();
-            item.Size = (int)(json.GetNamedNumber("size"));
-            item.WebUrl = json.GetNamedString("webUrl");
-            //item.WebDavUrl = json.GetNamedString("webDavUrl");
+            item.Id = RestApi.MapStringFromJson(json, "id");
+            item.Name = RestApi.MapStringFromJson(json, "name");
+            item.CTag = RestApi.MapStringFromJson(json, "cTag");
+            item.ETag = RestApi.MapStringFromJson(json, "eTag");
+            item.CreatedDateTime = DateTime.Parse(RestApi.MapStringFromJson(json, "createdDateTime")).ToLocalTime();
+            item.LastModifiedDateTime = DateTime.Parse(RestApi.MapStringFromJson(json, "lastModifiedDateTime")).ToLocalTime();
+            item.Size = (int)(RestApi.MapNumberFromJson(json, "size"));
+            item.WebUrl = RestApi.MapStringFromJson(json, "webUrl");
             return item;
         }
         #endregion

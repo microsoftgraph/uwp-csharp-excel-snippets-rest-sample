@@ -10,7 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Windows.Data.Json;
+using Newtonsoft.Json.Linq;
+
+using Office365Service;
 
 namespace Microsoft.ExcelServices
 {
@@ -28,22 +30,22 @@ namespace Microsoft.ExcelServices
         #endregion
 
         #region Methods
-        public static Chart MapFromJson(JsonObject json)
+        public static Chart MapFromJson(JObject json)
         {
             var chart = new Chart();
             chart.WorksheetId = GetWorksheetId(json);
-            chart.ChartId = json.GetNamedString("id");
-            chart.Name = json.GetNamedString("name");
-            chart.Width = (double)json.GetNamedNumber("width");
-            chart.Height = (double)json.GetNamedNumber("height");
-            chart.Left = (double)json.GetNamedNumber("left");
-            chart.Top = (double)json.GetNamedNumber("top");
+            chart.ChartId = RestApi.MapStringFromJson(json, "id");
+            chart.Name = RestApi.MapStringFromJson(json, "name");
+            chart.Width = (double)RestApi.MapNumberFromJson(json, "width");
+            chart.Height = (double)RestApi.MapNumberFromJson(json, "height");
+            chart.Left = (double)RestApi.MapNumberFromJson(json, "left");
+            chart.Top = (double)RestApi.MapNumberFromJson(json, "top");
             return chart;
         }
 
-        private static string GetWorksheetId(JsonObject json)
+        private static string GetWorksheetId(JObject json)
         {
-            var odataId = Uri.UnescapeDataString(json.GetNamedString("@odata.id"));
+            var odataId = Uri.UnescapeDataString(RestApi.MapStringFromJson(json, "@odata.id"));
             var id = odataId.Substring(odataId.IndexOf("worksheets(")+12);
             id = id.Substring(0, id.IndexOf(')')-1);
             return id;

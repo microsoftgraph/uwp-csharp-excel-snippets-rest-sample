@@ -9,7 +9,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Data.Json;
+
+using Newtonsoft.Json.Linq;
+
+using Office365Service;
 
 namespace Microsoft.ExcelServices
 {
@@ -24,33 +27,32 @@ namespace Microsoft.ExcelServices
         #endregion
 
         #region Methods
-        public static Worksheet MapFromJson(JsonObject json)
+        public static Worksheet MapFromJson(JObject json)
         {
             var worksheet = new Worksheet();
-            worksheet.Id = json.GetNamedString("id");
-            worksheet.Name = json.GetNamedString("name");
-            worksheet.Position = (int)json.GetNamedNumber("position");
-            worksheet.Visibility = json.GetNamedString("visibility");
+            worksheet.Id = RestApi.MapStringFromJson(json, "id");
+            worksheet.Name = RestApi.MapStringFromJson(json, "name");
+            worksheet.Position = (int)RestApi.MapNumberFromJson(json, "position");
+            worksheet.Visibility = RestApi.MapStringFromJson(json, "visibility");
 
-            if (json.ContainsKey("charts"))
+            JToken token = null;
+            if (json.TryGetValue("charts", out token))
             {
-                var jsonCharts = json.GetNamedArray("charts");
+                var jsonCharts = token.ToArray();
                 var charts = new List<Chart>();
                 foreach (var jsonChart in jsonCharts)
                 {
-                    var chart = Chart.MapFromJson(jsonChart.GetObject());
+                    var chart = Chart.MapFromJson(jsonChart.ToObject<JObject>());
                     chart.Worksheet = worksheet;
                     charts.Add(chart);
                 }
                 worksheet.Charts = charts.ToArray();
             }
+            else
+            {
+                worksheet.Charts = null;
+            }
             return worksheet;
-        }
-        public static void DebugPrint(Worksheet worksheet)
-        {
-            Debug.WriteLine($"Name: {worksheet.Name}");
-            Debug.WriteLine($"Position: {worksheet.Position}");
-            Debug.WriteLine($"Visibility: {worksheet.Visibility}");
         }
         #endregion
     }

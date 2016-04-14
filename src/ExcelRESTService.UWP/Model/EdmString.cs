@@ -9,7 +9,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Data.Json;
+
+using Newtonsoft.Json.Linq;
+
+using Office365Service;
 
 namespace Microsoft.Edm
 {
@@ -20,10 +23,10 @@ namespace Microsoft.Edm
         #endregion
 
         #region Methods
-        public static EdmString MapFromJson(JsonObject json)
+        public static EdmString MapFromJson(JObject json)
         {
             var edmString = new EdmString();
-            edmString.Value = json.GetNamedString("value");
+            edmString.Value = RestApi.MapStringFromJson(json, "value");
             return edmString;
         }
         #endregion

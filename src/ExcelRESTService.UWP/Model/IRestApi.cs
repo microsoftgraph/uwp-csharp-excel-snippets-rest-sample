@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-using Windows.Data.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Office365Service
 {
@@ -29,7 +29,7 @@ namespace Office365Service
         string QueryParameters { get; set; }
         ObservableDictionary Headers { get; set; }
         ObservableDictionary BodyProperties { get; set; }
-        JsonObject BodyAsJson { get; }
+        JObject BodyAsJson { get; }
         string BodyAsText { get; }
         Stream FileStream { get; set; }
         Type ResultType { get; set; }

@@ -10,7 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Windows.Data.Json;
+using Newtonsoft.Json.Linq;
+
+using Office365Service;
 
 namespace Microsoft.ExcelServices
 {
@@ -25,43 +27,37 @@ namespace Microsoft.ExcelServices
         #endregion
 
         #region Methods
-        public static Table MapFromJson(JsonObject json)
+        public static Table MapFromJson(JObject json)
         {
             var table = new Table();
-            table.Id = json.GetNamedString("id");
-            table.Name = json.GetNamedString("name");
-            table.ShowHeaders = json.GetNamedBoolean("showHeaders");
-            table.ShowTotals = json.GetNamedBoolean("showTotals");
-            table.Style = json.GetNamedString("style");
+            table.Id = RestApi.MapStringFromJson(json, "id");
+            table.Name = RestApi.MapStringFromJson(json, "name");
+            table.ShowHeaders = RestApi.MapBooleanFromJson(json, "showHeaders");
+            table.ShowTotals = RestApi.MapBooleanFromJson(json, "showTotals");
+            table.Style = RestApi.MapStringFromJson(json, "style");
             return table;
         }
 
-        public static JsonObject MapToJson(Table table)
+        public static JObject MapToJson(Table table)
         {
-            var json = new JsonObject();
+            var json = new JObject();
             if (table.Name != null)
             {
-                json.Add("name", JsonValue.CreateStringValue(table.Name));
+                json.Add("name", table.Name);
             }
             if (table.ShowHeaders != null)
             {
-                json.Add("showHeaders", JsonValue.CreateBooleanValue((bool)(table.ShowHeaders)));
+                json.Add("showHeaders", table.ShowHeaders);
             }
             if (table.ShowTotals != null)
             {
-                json.Add("showTotals", JsonValue.CreateBooleanValue((bool)(table.ShowTotals)));
+                json.Add("showTotals", table.ShowTotals);
             }
             if (table.Style != null)
             {
-                json.Add("style", JsonValue.CreateStringValue(table.Style));
+                json.Add("style", table.Style);
             }
             return json;
-        }
-
-        public static void DebugPrint(Table table)
-        {
-            Debug.WriteLine($"Id: {table.Id}");
-            Debug.WriteLine($"Name: {table.Name}");
         }
         #endregion
     }
