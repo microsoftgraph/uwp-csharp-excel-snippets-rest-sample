@@ -5,7 +5,6 @@
 
 using System;
 using System.Threading.Tasks;
-using System.Net;
 
 namespace Office365Service.User
 {

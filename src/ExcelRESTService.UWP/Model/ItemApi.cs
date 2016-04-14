@@ -96,7 +96,7 @@ namespace Office365Service.OneDrive
         }
         #endregion
 
-            #region Mapping
+        #region Mapping
         protected override object MapResult(JObject jsonResult)
         {
             if (ResultType != null)

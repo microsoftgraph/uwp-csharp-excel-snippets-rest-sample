@@ -9,8 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Office365Service.Model;
-using Office365Service;
 using Office365Service.Excel;
 
 using Microsoft.ExcelServices;

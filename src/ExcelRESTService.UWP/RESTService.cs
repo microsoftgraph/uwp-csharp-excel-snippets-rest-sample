@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.IO;
@@ -67,7 +66,7 @@ namespace Office365Service
         #region Http Requests
         
         // GET
-        public async Task<JObject> GetAsync(Uri requestUri, ObservableDictionary headers)
+        public async Task<JObject> GetAsync(Uri requestUri, ObservableDictionary<string, string> headers)
         {
             HttpClient httpClient = await this.GetWebRequestAsync(requestUri);
             AddHeaders(httpClient, headers);
@@ -86,7 +85,7 @@ namespace Office365Service
         }
         
         // POST
-        public async Task<JObject> PostAsync(Uri requestUri, ObservableDictionary headers, string body)
+        public async Task<JObject> PostAsync(Uri requestUri, ObservableDictionary<string, string> headers, string body)
         {
             HttpClient httpClient = await this.GetWebRequestAsync(requestUri);
             AddHeaders(httpClient, headers);
@@ -114,7 +113,7 @@ namespace Office365Service
         }
 
         // PUT
-        public async Task<JObject> PutAsync(Uri requestUri, ObservableDictionary headers, Stream stream)
+        public async Task<JObject> PutAsync(Uri requestUri, ObservableDictionary<string, string> headers, Stream stream)
         {
             HttpClient httpClient = await this.GetWebRequestAsync(requestUri);
             AddHeaders(httpClient, headers);
@@ -143,7 +142,7 @@ namespace Office365Service
         }
 
         // Patch
-        public async Task<JObject> PatchAsync(Uri requestUri, ObservableDictionary headers, string body)
+        public async Task<JObject> PatchAsync(Uri requestUri, ObservableDictionary<string, string> headers, string body)
         {
             HttpClient httpClient = await this.GetWebRequestAsync(requestUri);
             AddHeaders(httpClient, headers);
@@ -182,7 +181,7 @@ namespace Office365Service
             }
         }
 
-        private void AddHeaders(HttpClient httpClient, ObservableDictionary headers)
+        private void AddHeaders(HttpClient httpClient, ObservableDictionary<string, string> headers)
         {
             foreach (var key in headers.Keys)
             {
