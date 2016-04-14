@@ -4,15 +4,13 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Linq;
 using System.Net;
 
 using Windows.Storage.Streams;
 
 using Microsoft.OneDrive;
+using System.IO;
 
 namespace Office365Service.OneDrive
 {
@@ -20,10 +18,6 @@ namespace Office365Service.OneDrive
     {
         #region Constructor
         public OneDriveService(Func<Task<string>> getAccessTokenAsync) : base(getAccessTokenAsync)
-        {
-        }
-
-        public OneDriveService(Func<Task<CookieContainer>> getCookieContainerAsync) : base(getCookieContainerAsync)
         {
         }
         #endregion
@@ -54,7 +48,7 @@ namespace Office365Service.OneDrive
                 return uploadFileApi;
             }
         }
-        public async Task<Item> UploadFileAsync(string path, string filename, IRandomAccessStreamWithContentType fileStream)
+        public async Task<Item> UploadFileAsync(string path, string filename, Stream fileStream)
         {
             ((ItemApi)UploadFileApi).FileStream = fileStream;
             return (Item)(await ((ItemApi)UploadFileApi).InvokeAsync(path, filename));

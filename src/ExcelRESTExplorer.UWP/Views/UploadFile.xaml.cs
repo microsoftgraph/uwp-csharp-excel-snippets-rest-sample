@@ -4,6 +4,7 @@
  */
 
 using System;
+using System.IO;
 
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Controls;
@@ -24,7 +25,7 @@ namespace ExcelServiceExplorer.Views
             var fileToUpload = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Content/template.xlsx"));
             var fileStream = await fileToUpload.OpenReadAsync();
 
-            App.OneDriveService.RequestViewModel.Api.FileStream = fileStream;
+            App.OneDriveService.RequestViewModel.Api.FileStream = WindowsRuntimeStreamExtensions.AsStream(fileStream);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

@@ -4,10 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Linq;
 using System.Net;
 
 namespace Office365Service.User
@@ -16,10 +13,6 @@ namespace Office365Service.User
     {
         #region Constructor
         public UserService(Func<Task<string>> getAccessTokenAsync) : base(getAccessTokenAsync)
-        {
-        }
-
-        public UserService(Func<Task<CookieContainer>> getCookieContainerAsync) : base(getCookieContainerAsync)
         {
         }
         #endregion

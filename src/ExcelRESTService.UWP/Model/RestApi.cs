@@ -9,8 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.IO;
+
 using Windows.Data.Json;
-using Windows.Storage.Streams;
 
 using Office365Service;
 using Office365Service.ViewModel;
@@ -117,7 +118,7 @@ namespace Office365Service
             }
         }
         // Filestream
-        public IRandomAccessStreamWithContentType FileStream { get; set; }
+        public Stream FileStream { get; set; }
         // ResultType
         public Type ResultType { get; set; }
         // RequestUri (https://graph.microsoft.com/...)

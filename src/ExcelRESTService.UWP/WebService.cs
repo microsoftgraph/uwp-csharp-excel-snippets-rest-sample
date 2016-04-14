@@ -4,10 +4,8 @@
  */
 
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
-
-using Windows.Web.Http;
+using System.Net.Http;
 
 namespace Office365Service
 {
@@ -21,33 +19,16 @@ namespace Office365Service
 
         #region Properties
         // Url
-        private string url = null;
-        public virtual string Url
-        {
-            get
-            {
-                return url;
-            }
-            set
-            {
-                if (value != url)
-                {
-                    url = value;
-                }
-            }
-        }
+        public virtual string Url { get; set; }
         #endregion
 
-        protected virtual HttpClient GetWebRequest(Uri uri)
-        {
-            return new HttpClient();
-        }
-
+        #region Methods
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         protected async virtual Task<HttpClient> GetWebRequestAsync(Uri uri)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             return new HttpClient();
         }
+        #endregion  
     }
 }

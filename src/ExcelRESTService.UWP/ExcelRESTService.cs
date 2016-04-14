@@ -4,10 +4,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Linq;
 using System.Net;
 
 using Microsoft.ExcelServices;
@@ -19,10 +16,6 @@ namespace Office365Service.Excel
     {
         #region Constructor
         public ExcelRESTService(Func<Task<string>> getAccessTokenAsync) : base(getAccessTokenAsync)
-        {
-        }
-
-        public ExcelRESTService(Func<Task<CookieContainer>> getCookieContainerAsync) : base(getCookieContainerAsync)
         {
         }
         #endregion

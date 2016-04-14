@@ -5,9 +5,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Windows.Storage;
 
 namespace ExcelRESTService.UnitTests.UWP.Helpers
@@ -26,7 +28,7 @@ namespace ExcelRESTService.UnitTests.UWP.Helpers
             var fileToUpload = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Content/template.xlsx"));
             using (var fileStream = await fileToUpload.OpenReadAsync())
             {
-                item = await App.OneDriveService.UploadFileAsync("", filename, fileStream);
+                item = await App.OneDriveService.UploadFileAsync("", filename, WindowsRuntimeStreamExtensions.AsStream(fileStream));
             }
             return item;
         }

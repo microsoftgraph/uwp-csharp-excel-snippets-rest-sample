@@ -4,24 +4,16 @@
  */
 
 using System;
-using System.Windows;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Text;
 using System.Linq;
-using System.Xml.Linq;
-using System.Globalization;
-using System.Xml.Serialization;
-using System.Xml;
-using System.Reflection;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.IO;
 
-using Windows.Storage.Streams;
 using Windows.Data.Json;
-using Windows.Web.Http;
-using Windows.Web.Http.Filters;
-using Windows.Web.Http.Headers;
 
 using Office365Service.ViewModel;
 using Office365Service.Model;
@@ -31,7 +23,6 @@ namespace Office365Service
     public class RESTService : WebService
     {
         protected Func<Task<string>> _getAccessTokenAsync;
-        protected Func<Task<CookieContainer>> _getCookieContainerAsync;
 
         #region Constructor
         public RESTService() : base()
@@ -42,12 +33,6 @@ namespace Office365Service
         {
             _getAccessTokenAsync = getAccessTokenAsync;
         }
-
-        public RESTService(Func<Task<CookieContainer>> getCookieContainerAsync)
-        {
-            _getCookieContainerAsync = getCookieContainerAsync;
-        }
-
         #endregion
 
         #region Properties
@@ -81,11 +66,14 @@ namespace Office365Service
 
         #region Http Requests
         
-        // Get
+        // GET
         public async Task<JsonObject> GetAsync(Uri requestUri, ObservableDictionary headers)
         {
             HttpClient httpClient = await this.GetWebRequestAsync(requestUri);
             AddHeaders(httpClient, headers);
+
+            // Ensure that we don't get a cached response
+            httpClient.DefaultRequestHeaders.IfModifiedSince = DateTime.UtcNow;
 
             // Call the service and GET the response
             HttpResponseMessage httpResponse = await httpClient.GetAsync(requestUri);
@@ -97,21 +85,19 @@ namespace Office365Service
             return JsonObject.Parse(responseText);
         }
         
-        // Post
+        // POST
         public async Task<JsonObject> PostAsync(Uri requestUri, ObservableDictionary headers, string body)
         {
             HttpClient httpClient = await this.GetWebRequestAsync(requestUri);
             AddHeaders(httpClient, headers);
 
-            var method = new HttpMethod("POST");
-            var request = new HttpRequestMessage(method, requestUri)
+            var request = new HttpRequestMessage(new HttpMethod("POST"), requestUri)
             {
-                Content = new HttpStringContent(body)
+                Content = new StringContent(body, Encoding.UTF8, "application/json"),
             };
-            request.Content.Headers["Content-Type"] = "application/json";
-
+            
             // Call the service and GET the response
-            HttpResponseMessage httpResponse = await httpClient.SendRequestAsync(request);
+            HttpResponseMessage httpResponse = await httpClient.SendAsync(request);
             var responseText = await httpResponse.Content.ReadAsStringAsync();
             LogResponse(httpResponse, body, responseText);
             EnsureSuccessStatusCode(requestUri.LocalPath, httpResponse);
@@ -127,22 +113,20 @@ namespace Office365Service
             }
         }
 
-        // Put
-        public async Task<JsonObject> PutAsync(Uri requestUri, ObservableDictionary headers, IRandomAccessStreamWithContentType fileStream)
+        // PUT
+        public async Task<JsonObject> PutAsync(Uri requestUri, ObservableDictionary headers, Stream stream)
         {
             HttpClient httpClient = await this.GetWebRequestAsync(requestUri);
             AddHeaders(httpClient, headers);
 
-            var method = new HttpMethod("PUT");
-            fileStream.Seek(0);
-            var request = new HttpRequestMessage(method, requestUri)
+            stream.Seek(0, SeekOrigin.Begin);
+            var request = new HttpRequestMessage(new HttpMethod("PUT"), requestUri)
             {
-                Content = new HttpStreamContent(fileStream)
+                Content = new StreamContent(stream)
             };
-            request.Content.Headers["Content-Type"] = "application/json";
 
             // Call the service and GET the response
-            HttpResponseMessage httpResponse = await httpClient.SendRequestAsync(request);
+            HttpResponseMessage httpResponse = await httpClient.SendAsync(request);
             var responseText = await httpResponse.Content.ReadAsStringAsync();
             LogResponse(httpResponse, "{file}", responseText);
             EnsureSuccessStatusCode(requestUri.LocalPath, httpResponse);
@@ -164,15 +148,13 @@ namespace Office365Service
             HttpClient httpClient = await this.GetWebRequestAsync(requestUri);
             AddHeaders(httpClient, headers);
 
-            var method = new HttpMethod("PATCH");
-            var request = new HttpRequestMessage(method, requestUri)
+            var request = new HttpRequestMessage(new HttpMethod("PATCH"), requestUri)
             {
-                Content = new HttpStringContent(body)
+                Content = new StringContent(body, Encoding.UTF8, "application/json")
             };
-            request.Content.Headers["Content-Type"] = "application/json";
-
+            
             // Call the service and GET the response
-            HttpResponseMessage httpResponse = await httpClient.SendRequestAsync(request);
+            HttpResponseMessage httpResponse = await httpClient.SendAsync(request);
             var responseText = await httpResponse.Content.ReadAsStringAsync();
             LogResponse(httpResponse, body, responseText);
             EnsureSuccessStatusCode(requestUri.LocalPath, httpResponse);
@@ -181,95 +163,28 @@ namespace Office365Service
             return JsonObject.Parse(responseText);
         }
         
-        #endregion 
+        #endregion
 
         #region Web Request
-        protected override HttpClient GetWebRequest(Uri uri)
-        {
-            if (_getAccessTokenAsync != null)
-            {
-                // Add bearer token to the request
-                var accessToken = _getAccessTokenAsync().Result;
-                if (accessToken != null)
-                {
-                    var filter = new HttpBaseProtocolFilter();
-                    filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
-                        
-                    var httpClient = new HttpClient(filter);
-                    httpClient.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("Bearer", accessToken);
-                    return httpClient;
-                }
-                else
-                {
-                    throw new Exception("Could not get access token");
-                }
-            }
-            else
-            {
-                // Add cookie container to the request
-                CookieContainer cookieContainer = GetCookieContainer();
-
-                HttpBaseProtocolFilter filter = new HttpBaseProtocolFilter();
-                var cookieManager = filter.CookieManager;
-                foreach (Cookie c in cookieContainer.GetCookies(uri))
-                {
-                    HttpCookie hc = new HttpCookie(c.Name, c.Domain, c.Path);
-                    hc.Value = c.Value;
-                    cookieManager.SetCookie(hc);
-                }
-                filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
-                return new HttpClient(filter);
-            }
-        }
-
-        private CookieContainer GetCookieContainer()
-        {
-            CookieContainer cookieContainer = null;
-            Task<CookieContainer> task = _getCookieContainerAsync().ContinueWith(antecedent => cookieContainer = antecedent.Result);
-            if (task != null)
-                task.Wait();
-
-            return cookieContainer;
-        }
-
         protected async override Task<HttpClient> GetWebRequestAsync(Uri uri)
         {
-            if (_getAccessTokenAsync != null)
+            // Add bearer token to the request
+            var accessToken = await _getAccessTokenAsync();
+            if (accessToken != null)
             {
-                // Add bearer token to the request
-                var accessToken = await _getAccessTokenAsync();
-                if (accessToken != null)
-                {
-                    var filter = new HttpBaseProtocolFilter();
-                    filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
+                ///TODO: Need to set cache policy on the request
+                //var filter = new HttpBaseProtocolFilter();
+                //filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
 
-                    var httpClient = new HttpClient(filter);
-                    httpClient.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("Bearer", accessToken);
-                    return httpClient;
-                }
-                else
-                {
-                    throw new Exception("Could not get access token");
-                }
+                //var httpClient = new HttpClient(filter);
+                var httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+                return httpClient;
             }
             else
             {
-                // Add cookie container to the request
-                CookieContainer cookieContainer = await _getCookieContainerAsync();
-
-                HttpBaseProtocolFilter filter = new HttpBaseProtocolFilter();
-                var cookieManager = filter.CookieManager;
-                foreach (Cookie c in cookieContainer.GetCookies(uri))
-                {
-                    //Debug.WriteLine("Cookie: Name=\{c.Name}, Domain=\{c.Domain}, Path=\{c.Path}");
-                    HttpCookie hc = new HttpCookie(c.Name, c.Domain, c.Path);
-                    hc.Value = c.Value;
-                    cookieManager.SetCookie(hc);
-                }
-                filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
-                return new HttpClient(filter);
+                throw new Exception("Could not get access token");
             }
-            
         }
 
         private void AddHeaders(HttpClient httpClient, ObservableDictionary headers)
@@ -308,11 +223,11 @@ namespace Office365Service
             }
         }
 
-        private void GrabResponseHeader(string key, HttpResponseHeaderCollection headers, Exception ex)
+        private void GrabResponseHeader(string key, HttpResponseHeaders headers, Exception ex)
         {
-            if (headers.ContainsKey(key))
+            if (headers.Contains(key))
             {
-                ex.Data[key] = headers[key];
+                ex.Data[key] = headers.GetValues(key).First();
             }
         }
         #endregion
@@ -328,7 +243,7 @@ namespace Office365Service
                 var headers = new List<KeyValue>();
                 foreach (var header in response.RequestMessage.Headers)
                 {
-                    headers.Add(new KeyValue() { Key = header.Key, Value = header.Value });
+                    headers.Add(new KeyValue() { Key = header.Key, Value = header.Value.First() });
                 }
                 requestVM.Headers = headers;
             }
@@ -341,13 +256,11 @@ namespace Office365Service
                 var headers = new List<KeyValue>();
                 foreach (var header in response.Headers)
                 {
-                    headers.Add(new KeyValue() { Key = header.Key, Value = header.Value });
+                    headers.Add(new KeyValue() { Key = header.Key, Value = header.Value.First() });
                 }
                 responseVM.Headers = headers;
             }
         }
-
-
         #endregion
     }
 }

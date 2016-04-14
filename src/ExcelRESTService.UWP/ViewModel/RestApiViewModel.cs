@@ -12,6 +12,7 @@ using System.Windows.Input;
 using Windows.Storage.Streams;
 
 using Microsoft.ApplicationInsights;
+using System.IO;
 
 namespace Office365Service.ViewModel
 {
@@ -159,7 +160,7 @@ namespace Office365Service.ViewModel
             }
         }
         // FileStream
-        public IRandomAccessStreamWithContentType FileStream
+        public Stream FileStream
         {
             get
             {
