@@ -9,8 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Windows.Web.Http;
-
 using Office365Service;
 
 namespace Office365Service.Model

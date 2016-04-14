@@ -27,8 +27,8 @@ namespace Office365Service
         string ResourceFormat { get; set; }
         string Resource { get; }
         string QueryParameters { get; set; }
-        ObservableDictionary Headers { get; set; }
-        ObservableDictionary BodyProperties { get; set; }
+        ObservableDictionary<string, string> Headers { get; set; }
+        ObservableDictionary<string, object> BodyProperties { get; set; }
         JObject BodyAsJson { get; }
         string BodyAsText { get; }
         Stream FileStream { get; set; }

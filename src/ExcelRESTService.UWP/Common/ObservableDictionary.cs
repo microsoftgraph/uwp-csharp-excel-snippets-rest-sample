@@ -4,152 +4,442 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
-
-using Windows.Foundation.Collections;
 
 namespace Office365Service
 {
-    /// <summary>
-    /// Implementation of IObservableMap that supports reentrancy for use as a default view
-    /// model.
-    /// </summary>
-    public class ObservableDictionary : IObservableMap<string, object>
+    // Adapted from: http://blogs.microsoft.co.il/shimmy/2010/12/26/observabledictionarylttkey-tvaluegt-c/
+
+    public class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        private class ObservableDictionaryChangedEventArgs : IMapChangedEventArgs<string>
-        {
-            public ObservableDictionaryChangedEventArgs(CollectionChange change, string key)
-            {
-                this.CollectionChange = change;
-                this.Key = key;
-            }
+        private const string CountString = "Count";
+        private const string IndexerName = "Item[]";
+        private const string KeysName = "Keys";
+        private const string ValuesName = "Values";
 
-            public CollectionChange CollectionChange { get; private set; }
-            public string Key { get; private set; }
+        private IDictionary<TKey, TValue> _Dictionary;
+        protected IDictionary<TKey, TValue> Dictionary
+        {
+            get { return _Dictionary; }
         }
 
-        private Dictionary<string, object> _dictionary = new Dictionary<string, object>();
-        public event MapChangedEventHandler<string, object> MapChanged;
-
-        private void InvokeMapChanged(CollectionChange change, string key)
+        #region Constructors
+        public ObservableDictionary()
         {
-            var eventHandler = MapChanged;
-            if (eventHandler != null)
-            {
-                eventHandler(this, new ObservableDictionaryChangedEventArgs(change, key));
-            }
+            _Dictionary = new Dictionary<TKey, TValue>();
+        }
+        public ObservableDictionary(IDictionary<TKey, TValue> dictionary)
+        {
+            _Dictionary = new Dictionary<TKey, TValue>(dictionary);
+        }
+        public ObservableDictionary(IEqualityComparer<TKey> comparer)
+        {
+            _Dictionary = new Dictionary<TKey, TValue>(comparer);
+        }
+        public ObservableDictionary(int capacity)
+        {
+            _Dictionary = new Dictionary<TKey, TValue>(capacity);
+        }
+        public ObservableDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer)
+        {
+            _Dictionary = new Dictionary<TKey, TValue>(dictionary, comparer);
+        }
+        public ObservableDictionary(int capacity, IEqualityComparer<TKey> comparer)
+        {
+            _Dictionary = new Dictionary<TKey, TValue>(capacity, comparer);
+        }
+        #endregion
+
+        #region IDictionary<TKey,TValue> Members
+
+        public void Add(TKey key, TValue value)
+        {
+            Insert(key, value, true);
         }
 
-        public void Add(string key, object value)
+        public bool ContainsKey(TKey key)
         {
-            this._dictionary.Add(key, value);
-            this.InvokeMapChanged(CollectionChange.ItemInserted, key);
+            return Dictionary.ContainsKey(key);
         }
 
-        public void Add(KeyValuePair<string, object> item)
+        public ICollection<TKey> Keys
         {
-            this.Add(item.Key, item.Value);
+            get { return Dictionary.Keys; }
         }
 
-        public bool Remove(string key)
+        public bool Remove(TKey key)
         {
-            if (this._dictionary.Remove(key))
-            {
-                this.InvokeMapChanged(CollectionChange.ItemRemoved, key);
-                return true;
-            }
-            return false;
+            if (key == null) throw new ArgumentNullException("key");
+
+            TValue value;
+            Dictionary.TryGetValue(key, out value);
+            var removed = Dictionary.Remove(key);
+            if (removed)
+                //OnCollectionChanged(NotifyCollectionChangedAction.Remove, new KeyValuePair<TKey, TValue>(key, value));
+                OnCollectionChanged();
+
+
+            return removed;
         }
 
-        public bool Remove(KeyValuePair<string, object> item)
+
+        public bool TryGetValue(TKey key, out TValue value)
         {
-            object currentValue;
-            if (this._dictionary.TryGetValue(item.Key, out currentValue) &&
-                Object.Equals(item.Value, currentValue) && this._dictionary.Remove(item.Key))
-            {
-                this.InvokeMapChanged(CollectionChange.ItemRemoved, item.Key);
-                return true;
-            }
-            return false;
+            return Dictionary.TryGetValue(key, out value);
         }
 
-        public object this[string key]
+
+        public ICollection<TValue> Values
+        {
+            get { return Dictionary.Values; }
+        }
+
+
+        public TValue this[TKey key]
         {
             get
             {
-                return this._dictionary[key];
+                return Dictionary[key];
             }
             set
             {
-                this._dictionary[key] = value;
-                this.InvokeMapChanged(CollectionChange.ItemChanged, key);
+                Insert(key, value, false);
             }
         }
+
+
+        #endregion
+
+
+        #region ICollection<KeyValuePair<TKey,TValue>> Members
+
+
+        public void Add(KeyValuePair<TKey, TValue> item)
+        {
+            Insert(item.Key, item.Value, true);
+        }
+
 
         public void Clear()
         {
-            var priorKeys = this._dictionary.Keys.ToArray();
-            this._dictionary.Clear();
-            foreach (var key in priorKeys)
+            if (Dictionary.Count > 0)
             {
-                this.InvokeMapChanged(CollectionChange.ItemRemoved, key);
+                Dictionary.Clear();
+                OnCollectionChanged();
             }
         }
 
-        public ICollection<string> Keys
+
+        public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            get { return this._dictionary.Keys; }
+            return Dictionary.Contains(item);
         }
 
-        public bool ContainsKey(string key)
+
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            return this._dictionary.ContainsKey(key);
+            Dictionary.CopyTo(array, arrayIndex);
         }
 
-        public bool TryGetValue(string key, out object value)
-        {
-            return this._dictionary.TryGetValue(key, out value);
-        }
-
-        public ICollection<object> Values
-        {
-            get { return this._dictionary.Values; }
-        }
-
-        public bool Contains(KeyValuePair<string, object> item)
-        {
-            return this._dictionary.Contains(item);
-        }
 
         public int Count
         {
-            get { return this._dictionary.Count; }
+            get { return Dictionary.Count; }
         }
+
 
         public bool IsReadOnly
         {
-            get { return false; }
+            get { return Dictionary.IsReadOnly; }
         }
 
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+
+        public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            return this._dictionary.GetEnumerator();
+            return Remove(item.Key);
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+
+        #endregion
+
+
+        #region IEnumerable<KeyValuePair<TKey,TValue>> Members
+
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            return this._dictionary.GetEnumerator();
+            return Dictionary.GetEnumerator();
         }
 
-        public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
+
+        #endregion
+
+
+        #region IEnumerable Members
+
+
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            int arraySize = array.Length;
-            foreach (var pair in this._dictionary)
+            return ((IEnumerable)Dictionary).GetEnumerator();
+        }
+
+
+        #endregion
+
+
+        #region INotifyCollectionChanged Members
+
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+
+
+        #endregion
+
+
+        #region INotifyPropertyChanged Members
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+        #endregion
+
+
+        public void AddRange(IDictionary<TKey, TValue> items)
+        {
+            if (items == null) throw new ArgumentNullException("items");
+
+
+            if (items.Count > 0)
             {
-                if (arrayIndex >= arraySize) break;
-                array[arrayIndex++] = pair;
+                if (Dictionary.Count > 0)
+                {
+                    if (items.Keys.Any((k) => Dictionary.ContainsKey(k)))
+                        throw new ArgumentException("An item with the same key has already been added.");
+                    else
+                        foreach (var item in items) Dictionary.Add(item);
+                }
+                else
+                    _Dictionary = new Dictionary<TKey, TValue>(items);
+
+
+                OnCollectionChanged(NotifyCollectionChangedAction.Add, items.ToArray());
             }
         }
+
+
+        private void Insert(TKey key, TValue value, bool add)
+        {
+            if (key == null) throw new ArgumentNullException("key");
+
+
+            TValue item;
+            if (Dictionary.TryGetValue(key, out item))
+            {
+                if (add) throw new ArgumentException("An item with the same key has already been added.");
+                if (Equals(item, value)) return;
+                Dictionary[key] = value;
+
+
+                OnCollectionChanged(NotifyCollectionChangedAction.Replace, new KeyValuePair<TKey, TValue>(key, value), new KeyValuePair<TKey, TValue>(key, item));
+            }
+            else
+            {
+                Dictionary[key] = value;
+
+                OnCollectionChanged(NotifyCollectionChangedAction.Add, new KeyValuePair<TKey, TValue>(key, value));
+            }
+        }
+
+
+        private void OnPropertyChanged()
+        {
+            OnPropertyChanged(CountString);
+            OnPropertyChanged(IndexerName);
+            OnPropertyChanged(KeysName);
+            OnPropertyChanged(ValuesName);
+        }
+
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
+        private void OnCollectionChanged()
+        {
+            OnPropertyChanged();
+            if (CollectionChanged != null) CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
+
+
+        private void OnCollectionChanged(NotifyCollectionChangedAction action, KeyValuePair<TKey, TValue> changedItem)
+        {
+            OnPropertyChanged();
+            if (CollectionChanged != null) CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, changedItem));
+        }
+
+
+        private void OnCollectionChanged(NotifyCollectionChangedAction action, KeyValuePair<TKey, TValue> newItem, KeyValuePair<TKey, TValue> oldItem)
+        {
+            OnPropertyChanged();
+            if (CollectionChanged != null) CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem));
+        }
+
+
+        private void OnCollectionChanged(NotifyCollectionChangedAction action, IList newItems)
+        {
+            OnPropertyChanged();
+            if (CollectionChanged != null) CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItems));
+        }
     }
+
+
+
+    ///// <summary>
+    ///// Implementation of IObservableMap that supports reentrancy for use as a default view
+    ///// model.
+    ///// </summary>
+    //public class ObservableDictionary : IObservableMap<string, object>
+    //{
+    //    private class ObservableDictionaryChangedEventArgs : IMapChangedEventArgs<string>
+    //    {
+    //        public ObservableDictionaryChangedEventArgs(CollectionChange change, string key)
+    //        {
+    //            this.CollectionChange = change;
+    //            this.Key = key;
+    //        }
+
+    //        public CollectionChange CollectionChange { get; private set; }
+    //        public string Key { get; private set; }
+    //    }
+
+    //    private Dictionary<string, object> _dictionary = new Dictionary<string, object>();
+    //    public event MapChangedEventHandler<string, object> MapChanged;
+
+    //    private void InvokeMapChanged(CollectionChange change, string key)
+    //    {
+    //        var eventHandler = MapChanged;
+    //        if (eventHandler != null)
+    //        {
+    //            eventHandler(this, new ObservableDictionaryChangedEventArgs(change, key));
+    //        }
+    //    }
+
+    //    public void Add(string key, object value)
+    //    {
+    //        this._dictionary.Add(key, value);
+    //        this.InvokeMapChanged(CollectionChange.ItemInserted, key);
+    //    }
+
+    //    public void Add(KeyValuePair<string, object> item)
+    //    {
+    //        this.Add(item.Key, item.Value);
+    //    }
+
+    //    public bool Remove(string key)
+    //    {
+    //        if (this._dictionary.Remove(key))
+    //        {
+    //            this.InvokeMapChanged(CollectionChange.ItemRemoved, key);
+    //            return true;
+    //        }
+    //        return false;
+    //    }
+
+    //    public bool Remove(KeyValuePair<string, object> item)
+    //    {
+    //        object currentValue;
+    //        if (this._dictionary.TryGetValue(item.Key, out currentValue) &&
+    //            Object.Equals(item.Value, currentValue) && this._dictionary.Remove(item.Key))
+    //        {
+    //            this.InvokeMapChanged(CollectionChange.ItemRemoved, item.Key);
+    //            return true;
+    //        }
+    //        return false;
+    //    }
+
+    //    public object this[string key]
+    //    {
+    //        get
+    //        {
+    //            return this._dictionary[key];
+    //        }
+    //        set
+    //        {
+    //            this._dictionary[key] = value;
+    //            this.InvokeMapChanged(CollectionChange.ItemChanged, key);
+    //        }
+    //    }
+
+    //    public void Clear()
+    //    {
+    //        var priorKeys = this._dictionary.Keys.ToArray();
+    //        this._dictionary.Clear();
+    //        foreach (var key in priorKeys)
+    //        {
+    //            this.InvokeMapChanged(CollectionChange.ItemRemoved, key);
+    //        }
+    //    }
+
+    //    public ICollection<string> Keys
+    //    {
+    //        get { return this._dictionary.Keys; }
+    //    }
+
+    //    public bool ContainsKey(string key)
+    //    {
+    //        return this._dictionary.ContainsKey(key);
+    //    }
+
+    //    public bool TryGetValue(string key, out object value)
+    //    {
+    //        return this._dictionary.TryGetValue(key, out value);
+    //    }
+
+    //    public ICollection<object> Values
+    //    {
+    //        get { return this._dictionary.Values; }
+    //    }
+
+    //    public bool Contains(KeyValuePair<string, object> item)
+    //    {
+    //        return this._dictionary.Contains(item);
+    //    }
+
+    //    public int Count
+    //    {
+    //        get { return this._dictionary.Count; }
+    //    }
+
+    //    public bool IsReadOnly
+    //    {
+    //        get { return false; }
+    //    }
+
+    //    public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+    //    {
+    //        return this._dictionary.GetEnumerator();
+    //    }
+
+    //    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+    //    {
+    //        return this._dictionary.GetEnumerator();
+    //    }
+
+    //    public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
+    //    {
+    //        int arraySize = array.Length;
+    //        foreach (var pair in this._dictionary)
+    //        {
+    //            if (arrayIndex >= arraySize) break;
+    //            array[arrayIndex++] = pair;
+    //        }
+    //    }
+    //}
 }

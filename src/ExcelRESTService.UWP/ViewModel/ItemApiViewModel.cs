@@ -9,10 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Windows.Web.Http;
-
-using Office365Service.Model;
-using Office365Service;
 using Office365Service.OneDrive;
 
 namespace Office365Service.ViewModel

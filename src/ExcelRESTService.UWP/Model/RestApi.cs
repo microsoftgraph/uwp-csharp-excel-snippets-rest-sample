@@ -32,10 +32,10 @@ namespace Office365Service
             QueryParameters = string.Empty;
             ResultType = resultType;
 
-            Headers = new ObservableDictionary();
+            Headers = new ObservableDictionary<string, string>();
             Headers["Accept"] = "application/json";
 
-            BodyProperties = new ObservableDictionary();
+            BodyProperties = new ObservableDictionary<string, object>();
         }
         #endregion
 
@@ -61,9 +61,9 @@ namespace Office365Service
         // QueryParameters
         public string QueryParameters { get; set; }
         // Headers
-        public ObservableDictionary Headers { get; set; }
+        public ObservableDictionary<string, string> Headers { get; set; }
         // BodyProperties
-        public ObservableDictionary BodyProperties { get; set; }
+        public ObservableDictionary<string, object> BodyProperties { get; set; }
         // BodyAsJson
         public JObject BodyAsJson
         {

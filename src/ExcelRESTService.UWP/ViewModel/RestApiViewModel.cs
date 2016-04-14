@@ -9,10 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Storage.Streams;
+using System.IO;
 
 using Microsoft.ApplicationInsights;
-using System.IO;
 
 namespace Office365Service.ViewModel
 {
@@ -23,7 +22,8 @@ namespace Office365Service.ViewModel
         {
             Model = model;
 
-            BodyProperties.MapChanged += BodyProperties_MapChanged;
+            BodyProperties.CollectionChanged += BodyProperties_CollectionChanged;
+            BodyProperties.PropertyChanged += BodyProperties_PropertyChanged;
         }
 
 
@@ -113,7 +113,7 @@ namespace Office365Service.ViewModel
             }
         }
         // Headers
-        public ObservableDictionary Headers
+        public ObservableDictionary<string, string> Headers
         {
             get
             {
@@ -129,7 +129,7 @@ namespace Office365Service.ViewModel
             }
         }
         // BodyProperties
-        public ObservableDictionary BodyProperties
+        public ObservableDictionary<string, object> BodyProperties
         {
             get
             {
@@ -146,7 +146,12 @@ namespace Office365Service.ViewModel
             }
         }
 
-        private void BodyProperties_MapChanged(Windows.Foundation.Collections.IObservableMap<string, object> sender, Windows.Foundation.Collections.IMapChangedEventArgs<string> @event)
+        private void BodyProperties_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged("BodyAsText");
+        }
+
+        private void BodyProperties_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             OnPropertyChanged("BodyAsText");
         }

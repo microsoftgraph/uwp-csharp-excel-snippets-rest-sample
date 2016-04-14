@@ -5,12 +5,9 @@
 
 using System;
 using System.Threading.Tasks;
-using System.Net;
-
-using Windows.Storage.Streams;
+using System.IO;
 
 using Microsoft.OneDrive;
-using System.IO;
 
 namespace Office365Service.OneDrive
 {

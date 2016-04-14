@@ -6,7 +6,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Windows;
 using System.Runtime.Serialization;
 
 namespace Office365Service.ViewModel
