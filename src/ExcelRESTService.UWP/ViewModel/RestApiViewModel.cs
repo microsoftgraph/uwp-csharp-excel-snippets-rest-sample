@@ -11,7 +11,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.IO;
 
+#if !PCL
 using Microsoft.ApplicationInsights;
+#endif
 
 namespace Office365Service.ViewModel
 {
@@ -253,9 +255,11 @@ namespace Office365Service.ViewModel
             {
                 IsLoading = true;
 
+#if !PCL
                 // Telemetry
                 var tc = new TelemetryClient();
                 tc.TrackEvent($"Commands/{Model.GetType().Name}{Model.ResourceFormat}/Invoke");
+#endif
 
                 // Invoke
                 Model.Service.ResponseViewModel.Clear();

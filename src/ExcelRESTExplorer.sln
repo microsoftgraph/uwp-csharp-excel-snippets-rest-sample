@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelRESTService.UnitTests.UWP", "ExcelRESTService.UnitTests.UWP\ExcelRESTService.UnitTests.UWP.csproj", "{2066AC91-9C58-4521-BA18-E8BF020D4702}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelRESTService.UWP", "ExcelRESTService.UWP\ExcelRESTService.UWP.csproj", "{5DA02202-1C40-4AB1-A5AC-1C282B4D71CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelRESTExplorer.UWP", "ExcelRESTExplorer.UWP\ExcelRESTExplorer.UWP.csproj", "{4F6E891F-1615-48F6-8F4F-E49F581E5FB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelRESTService.Portable", "ExcelRESTService.Portable\ExcelRESTService.Portable.csproj", "{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -98,6 +100,22 @@ Global
 		{4F6E891F-1615-48F6-8F4F-E49F581E5FB5}.Release|x86.ActiveCfg = Release|x86
 		{4F6E891F-1615-48F6-8F4F-E49F581E5FB5}.Release|x86.Build.0 = Release|x86
 		{4F6E891F-1615-48F6-8F4F-E49F581E5FB5}.Release|x86.Deploy.0 = Release|x86
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Debug|ARM.Build.0 = Debug|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Debug|x64.Build.0 = Debug|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Debug|x86.Build.0 = Debug|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Release|ARM.ActiveCfg = Release|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Release|ARM.Build.0 = Release|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Release|x64.ActiveCfg = Release|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Release|x64.Build.0 = Release|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Release|x86.ActiveCfg = Release|Any CPU
+		{0BDA3891-AFD6-42F7-9005-3A1DF72766EC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
