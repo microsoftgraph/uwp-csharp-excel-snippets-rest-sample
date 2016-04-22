@@ -40,5 +40,11 @@
 
         <TextBlock Grid.Row="1" Grid.Column="0" Text="DisplayName" Style="{StaticResource CaptionTextBlockStyle}" Margin="0,3,0,0" />
         <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding DisplayName, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" />
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="GivenName" Style="{StaticResource CaptionTextBlockStyle}" Margin="0,3,0,0" />
+        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding GivenName, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" />
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Surname" Style="{StaticResource CaptionTextBlockStyle}" Margin="0,3,0,0" />
+        <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Surname, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" />
     </Grid>
 </UserControl>

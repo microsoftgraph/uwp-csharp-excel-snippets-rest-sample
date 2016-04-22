@@ -21,6 +21,8 @@ namespace Microsoft.User
         #region Properties
         public string Id { get; set; }
         public string DisplayName { get; set; }
+        public string GivenName { get; set; }
+        public string Surname { get; set; }
         #endregion
 
         #region Methods
@@ -29,6 +31,8 @@ namespace Microsoft.User
             var user = new User();
             user.Id = RestApi.MapStringFromJson(json, "id");
             user.DisplayName = RestApi.MapStringFromJson(json, "displayName");
+            user.GivenName = RestApi.MapStringFromJson(json, "givenName");
+            user.Surname = RestApi.MapStringFromJson(json, "surname");
             return user;
         }
         #endregion
