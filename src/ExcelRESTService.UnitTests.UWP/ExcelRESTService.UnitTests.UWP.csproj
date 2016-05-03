@@ -90,7 +90,8 @@
   </PropertyGroup>
   <ItemGroup>
     <!--A reference to the entire .Net Framework and Windows SDK are automatically included-->
-    <Content Include="Content\Template.xlsx">
+    <Content Include="..\ExcelRESTExplorer.UWP\Content\Template.xlsx">
+      <Link>Content\Template.xlsx</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="project.json" />
@@ -100,6 +101,7 @@
   <ItemGroup>
     <Compile Include="Helpers\TestHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\NamedItem.UnitTest.cs" />
     <Compile Include="Tests\Chart.UnitTest.cs" />
     <Compile Include="Tests\Range.UnitTest.cs" />
     <Compile Include="Tests\Table.UnitTest.cs" />

@@ -473,6 +473,7 @@ namespace Office365Service.Excel
             get
             {
                 if (listChartsApi == null)
+                {
                     listChartsApi =
                         new WorksheetApi(
                             this,
@@ -482,6 +483,7 @@ namespace Office365Service.Excel
                             "/charts",
                             typeof(Chart[])
                         );
+                }
                 return listChartsApi;
             }
         }
@@ -499,6 +501,7 @@ namespace Office365Service.Excel
             get
             {
                 if (addChartApi == null)
+                {
                     addChartApi =
                         new WorksheetApi(
                             this,
@@ -508,9 +511,10 @@ namespace Office365Service.Excel
                             "/charts/$/add",
                             typeof(Chart)
                         );
-                addChartApi.BodyProperties["type"] = "ColumnClustered";
-                addChartApi.BodyProperties["sourceData"] = "Sheet3!A1:B4";
-                addChartApi.BodyProperties["seriesBy"] = "Auto";
+                    addChartApi.BodyProperties["type"] = "ColumnClustered";
+                    addChartApi.BodyProperties["sourceData"] = "Sheet3!A1:B4";
+                    addChartApi.BodyProperties["seriesBy"] = "Auto";
+                }
                 return addChartApi;
             }
         }
@@ -531,6 +535,7 @@ namespace Office365Service.Excel
             get
             {
                 if (getChartApi == null)
+                {
                     getChartApi =
                         new ChartApi(
                             this,
@@ -540,6 +545,7 @@ namespace Office365Service.Excel
                             string.Empty,
                             typeof(Chart)
                         );
+                }
                 return getChartApi;
             }
         }
@@ -557,6 +563,7 @@ namespace Office365Service.Excel
             get
             {
                 if (getChartTitleApi == null)
+                {
                     getChartTitleApi =
                         new ChartApi(
                             this,
@@ -566,6 +573,7 @@ namespace Office365Service.Excel
                             "/title",
                             typeof(ChartTitle)
                         );
+                }
                 return getChartTitleApi;
             }
         }
@@ -582,6 +590,7 @@ namespace Office365Service.Excel
             get
             {
                 if (getChartImageApi == null)
+                {
                     getChartImageApi =
                         new ChartApi(
                             this,
@@ -591,6 +600,7 @@ namespace Office365Service.Excel
                             "/Image(width=0,height=0,fittingMode='fit')",
                             typeof(EdmString)
                         );
+                }
                 return getChartImageApi;
             }
         }
@@ -601,6 +611,91 @@ namespace Office365Service.Excel
         }
 
         #endregion
+
+        #region Named Items
+        // ListNamedItemsAsync
+        WorkbookApi listNamedItemsApi;
+
+        public IRestApi ListNamedItemsApi
+        {
+            get
+            {
+                if (listNamedItemsApi == null)
+                {
+                    listNamedItemsApi =
+                        new WorkbookApi(
+                            this,
+                            "List Named Items",
+                            "Retrieve a list of NamedItem objects.",
+                            "GET",
+                            "/names",
+                            typeof(NamedItem[])
+                        );
+                }
+                return listNamedItemsApi;
+            }
+        }
+
+        public async Task<NamedItem[]> ListNamedItemsAsync(string id, string sessionId = "", string queryParameters = "")
+        {
+            return (NamedItem[])(await ((WorkbookApi)(ListNamedItemsApi)).InvokeAsync(id, sessionId, queryParameters));
+        }
+
+        // GetNamedItemAsync
+        NamedItemApi getNamedItemApi;
+
+        public IRestApi GetNamedItemApi
+        {
+            get
+            {
+                if (getNamedItemApi == null)
+                {
+                    getNamedItemApi =
+                        new NamedItemApi(
+                            this,
+                            "Get Named Item",
+                            "Retrieve the properties and relationships of NamedItem object.",
+                            "GET",
+                            string.Empty,
+                            typeof(NamedItem)
+                        );
+                }
+                return getNamedItemApi;
+            }
+        }
+
+        public async Task<NamedItem> GetNamedItemAsync(string id, string namedItemId, string sessionId = "", string queryParameters = "")
+        {
+            return (NamedItem)(await ((NamedItemApi)(GetNamedItemApi)).InvokeAsync(id, namedItemId, sessionId, queryParameters));
+        }
+
+        // NamedItemRangeAsync
+        NamedItemApi namedItemRangeApi;
+
+        public IRestApi NamedItemRangeApi
+        {
+            get
+            {
+                if (namedItemRangeApi == null)
+                    namedItemRangeApi =
+                        new NamedItemApi(
+                            this,
+                            "NamedItem: Range",
+                            "Returns the range object that is associated with the name.",
+                            "GET",
+                            "/Range",
+                            typeof(Range)
+                        );
+                return namedItemRangeApi;
+            }
+        }
+
+        public async Task<Range> NamedItemRangeAsync(string id, string namedItemId, string sessionId = "", string queryParameters = "")
+        {
+            return (Range)(await ((NamedItemApi)(NamedItemRangeApi)).InvokeAsync(id, namedItemId, sessionId, queryParameters));
+        }
+        #endregion
+
         #endregion
 
         #region Logging

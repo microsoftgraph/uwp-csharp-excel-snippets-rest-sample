@@ -108,7 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ObservableDictionary.cs" />
+    <Compile Include="Model\NamedItem.cs" />
     <Compile Include="Model\EdmString.cs" />
+    <Compile Include="Model\NamedItemApi.cs" />
     <Compile Include="Model\TableRow.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\UserApi.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="Model\Worksheet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RESTService.cs" />
+    <Compile Include="ViewModel\NamedItemApiViewModel.cs" />
     <Compile Include="ViewModel\DelegateCommand.cs" />
     <Compile Include="ViewModel\ChartApiViewModel.cs" />
     <Compile Include="ViewModel\RestApiViewModelFactory.cs" />

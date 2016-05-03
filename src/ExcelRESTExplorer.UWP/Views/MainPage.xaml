@@ -123,6 +123,12 @@
                         <HyperlinkButton x:Name="GetChartTitle" Content="Get Chart Title" Click="{x:Bind ViewModel.GotoApiPage}" HorizontalAlignment="Left" />
                         <HyperlinkButton x:Name="GetChartImage" Content="Get Chart Image" Click="{x:Bind ViewModel.GotoApiPage}" HorizontalAlignment="Left" />
                     </StackPanel>
+                    <StackPanel Margin="0,8,0,0">
+                        <TextBlock Text="Named Items" Style="{StaticResource SubtitleTextBlockStyle}" />
+                        <HyperlinkButton x:Name="ListNamedItems" Content="List Named Items" Click="{x:Bind ViewModel.GotoApiPage}" HorizontalAlignment="Left" />
+                        <HyperlinkButton x:Name="GetNamedItem" Content="Get Named Item" Click="{x:Bind ViewModel.GotoApiPage}" HorizontalAlignment="Left" />
+                        <HyperlinkButton x:Name="NamedItemRange" Content="Get Range" Click="{x:Bind ViewModel.GotoApiPage}" HorizontalAlignment="Left" />
+                    </StackPanel>
                 </StackPanel>
             </RelativePanel>
         </ScrollViewer>

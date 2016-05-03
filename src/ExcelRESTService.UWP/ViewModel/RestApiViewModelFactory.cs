@@ -32,6 +32,8 @@ namespace Office365Service.ViewModel
                     return new TableApiViewModel(api);
                 case "ChartApi":
                     return new ChartApiViewModel(api);
+                case "NamedItemApi":
+                    return new NamedItemApiViewModel(api);
                 default:
                     throw new ArgumentOutOfRangeException($"{api.GetType().Name} is not a valid API type");
             }

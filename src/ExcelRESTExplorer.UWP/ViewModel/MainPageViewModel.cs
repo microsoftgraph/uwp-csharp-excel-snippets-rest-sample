@@ -73,6 +73,11 @@ namespace ExcelServiceExplorer.ViewModel
             Views.Add("GetChart", new View(typeof(GetChart), App.ExcelService.GetChartApi));
             Views.Add("GetChartTitle", new View(typeof(GetChartTitle), App.ExcelService.GetChartTitleApi));
             Views.Add("GetChartImage", new View(typeof(GetChartImage), App.ExcelService.GetChartImageApi));
+
+            // Named Items
+            Views.Add("ListNamedItems", new View(typeof(ListNamedItems), App.ExcelService.ListNamedItemsApi));
+            Views.Add("GetNamedItem", new View(typeof(GetNamedItem), App.ExcelService.GetNamedItemApi));
+            Views.Add("NamedItemRange", new View(typeof(NamedItemRange), App.ExcelService.NamedItemRangeApi));
         }
         #endregion
 

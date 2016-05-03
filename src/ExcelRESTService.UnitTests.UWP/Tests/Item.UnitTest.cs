@@ -34,7 +34,7 @@ namespace ExcelRESTService.UnitTests.UWP
             // Assert
             Assert.AreNotEqual(string.Empty, item.Id, "Item Id is blank");
             Assert.AreEqual(filename, item.Name, $"Filename is not {filename}");
-            Assert.AreEqual(30779, item.Size, $"File size is not 30779");
+            Assert.AreEqual(31616, item.Size, $"File size is not 31616");
         }
 
         [TestMethod]

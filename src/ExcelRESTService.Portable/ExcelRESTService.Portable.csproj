@@ -64,6 +64,12 @@
     <Compile Include="..\ExcelRESTService.UWP\Model\KeyValue.cs">
       <Link>Model\KeyValue.cs</Link>
     </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\NamedItem.cs">
+      <Link>Model\NamedItem.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\Model\NamedItemApi.cs">
+      <Link>Model\NamedItemApi.cs</Link>
+    </Compile>
     <Compile Include="..\ExcelRESTService.UWP\Model\Range.cs">
       <Link>Model\Range.cs</Link>
     </Compile>
@@ -123,6 +129,9 @@
     </Compile>
     <Compile Include="..\ExcelRESTService.UWP\ViewModel\ItemApiViewModel.cs">
       <Link>ViewModel\ItemApiViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\ExcelRESTService.UWP\ViewModel\NamedItemApiViewModel.cs">
+      <Link>ViewModel\NamedItemApiViewModel.cs</Link>
     </Compile>
     <Compile Include="..\ExcelRESTService.UWP\ViewModel\RangeApiViewModel.cs">
       <Link>ViewModel\RangeApiViewModel.cs</Link>

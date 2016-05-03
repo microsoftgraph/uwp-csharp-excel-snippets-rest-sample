@@ -24,7 +24,7 @@ namespace ExcelRESTService.UnitTests.UWP
             // Act
             var worksheets = await App.ExcelService.ListWorksheetsAsync(item.Id);
             // Assert
-            Assert.AreEqual(3, worksheets.Length, "Count of worksheets is not 3");
+            Assert.AreEqual(4, worksheets.Length, "Count of worksheets is not 4");
             Assert.AreEqual("Sheet1", worksheets[0].Name, "First worksheet is not named 'Sheet1'");
             Assert.AreEqual("Sheet2", worksheets[1].Name, "Second worksheet is not named 'Sheet2'");
             Assert.AreEqual("Sheet3", worksheets[2].Name, "Third worksheet is not named 'Sheet3'");

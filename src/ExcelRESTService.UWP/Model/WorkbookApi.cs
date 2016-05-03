@@ -183,6 +183,18 @@ namespace Office365Service.Excel
                     result = ChartTitle.MapFromJson(jsonResult);
                     LogResult(result);
                     return result;
+                case "NamedItem":
+                    result = NamedItem.MapFromJson(jsonResult);
+                    LogResult(result);
+                    return result;
+                case "NamedItem[]":
+                    var namedItems = new List<NamedItem>();
+                    foreach (var jsonNamedItem in jsonResult.GetValue("value"))
+                    {
+                        namedItems.Add(NamedItem.MapFromJson(jsonNamedItem.ToObject<JObject>()));
+                    }
+                    LogResult(namedItems);
+                    return namedItems.ToArray();
 
                 default:
                     return base.MapResult(jsonResult);
