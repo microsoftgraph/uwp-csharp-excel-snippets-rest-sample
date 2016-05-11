@@ -70,6 +70,8 @@
                 <TextBox x:Name="TableId" 
                              Text="{Binding Request.Api.TableId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Width="320" HorizontalAlignment="Left" PlaceholderText="table name or id" Margin="0,8,0,0"/>
+                <TextBox x:Name="QueryParameters" Margin="0,8,0,0" Width="320" HorizontalAlignment="Left" PlaceholderText="query parameters"
+                             Text="{Binding Request.Api.QueryParameters, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <Button x:Name="Run" Content="Run" Margin="0,8,0,0" Command="{x:Bind ViewModel.Request.Api.InvokeCommand}"/>
                 <explorerControls:RequestViewer DataContext="{x:Bind ViewModel.Request,Mode=OneWay}" />
                 <explorerControls:ResponseViewer DataContext="{x:Bind ViewModel.Response,Mode=OneWay}" />

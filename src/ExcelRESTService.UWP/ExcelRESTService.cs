@@ -249,9 +249,9 @@ namespace Office365Service.Excel
                 return getTableApi;
             }
         }
-        public async Task<Table> GetTableAsync(string id, string tableName, string sessionId = "")
+        public async Task<Table> GetTableAsync(string id, string tableName, string sessionId = "", string queryParameters = "")
         {
-            return (Table)(await ((TableApi)(GetTableApi)).InvokeAsync(id, tableName, sessionId));
+            return (Table)(await ((TableApi)(GetTableApi)).InvokeAsync(id, tableName, sessionId, queryParameters));
         }
 
         // AddTableAsync
