@@ -107,6 +107,7 @@
                     <StackPanel Margin="0,8,0,0">
                         <TextBlock Text="Tables" Style="{StaticResource SubtitleTextBlockStyle}" />
                         <HyperlinkButton x:Name="ListTables" Content="List tables" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                        <HyperlinkButton x:Name="GetTable" Content="Get table" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
                         <HyperlinkButton x:Name="AddTable" Content="Add table" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
                         <HyperlinkButton x:Name="UpdateTable" Content="Update table" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
                         <HyperlinkButton x:Name="AddTableRow" Content="Add table row" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />

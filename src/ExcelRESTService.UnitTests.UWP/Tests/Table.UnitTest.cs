@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using AsyncAssert = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer.Assert;
 
 using ExcelRESTService.UnitTests.UWP.Helpers;
 
@@ -30,6 +31,34 @@ namespace ExcelRESTService.UnitTests.UWP
             Assert.AreEqual("LogEntries", tables[0].Name, "First table is not named 'LogEntries'");
         }
 
+        [TestMethod]
+        public async Task GetTable_NonExisting_ThrowsException()
+        {
+            // Arrange
+            var item = await TestHelpers.UploadFile();
+            // Act
+            await AsyncAssert.ThrowsException<Exception>(
+                 async () =>
+                 {
+                     var table = await App.ExcelService.GetTableAsync(item.Id, "TableX");
+                 }
+            );
+            // Assert
+        }
+
+        [TestMethod]
+        public async Task GetTable()
+        {
+            // Arrange
+            var item = await TestHelpers.UploadFile();
+            // Act
+            var table = await App.ExcelService.GetTableAsync(item.Id, "LogEntries");
+            // Assert
+            Assert.AreEqual("LogEntries", table.Name, "Table name is not 'LogEntries'");
+            Assert.AreEqual(true, table.ShowHeaders);
+            Assert.AreEqual(false, table.ShowTotals);
+            Assert.AreEqual("TableStyleMedium2", table.Style);
+        }
 
         [TestMethod]
         public async Task AddTable()

@@ -227,6 +227,33 @@ namespace Office365Service.Excel
             return (Table[])(await ((WorkbookApi)(ListTablesApi)).InvokeAsync(id, sessionId, queryParameters));
         }
 
+        // GetTableAsync
+        TableApi getTableApi;
+
+        public IRestApi GetTableApi
+        {
+            get
+            {
+                if (getTableApi == null)
+                {
+                    getTableApi =
+                        new TableApi(
+                            this,
+                            "Get Table",
+                            "Retrieve the properties and relationships of table object.",
+                            "GET",
+                            "",
+                            typeof(Table)
+                        );
+                }
+                return getTableApi;
+            }
+        }
+        public async Task<Table> GetTableAsync(string id, string tableName, string sessionId = "")
+        {
+            return (Table)(await ((TableApi)(GetTableApi)).InvokeAsync(id, tableName, sessionId));
+        }
+
         // AddTableAsync
         WorkbookApi addTableApi;
 

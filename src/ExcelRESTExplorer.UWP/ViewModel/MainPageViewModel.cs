@@ -60,6 +60,7 @@ namespace ExcelServiceExplorer.ViewModel
 
             // Table
             Views.Add("ListTables", new View(typeof(ListTables), App.ExcelService.ListTablesApi));
+            Views.Add("GetTable", new View(typeof(GetTable), App.ExcelService.GetTableApi));
             Views.Add("AddTable", new View(typeof(AddTable), App.ExcelService.AddTableApi));
             Views.Add("UpdateTable", new View(typeof(UpdateTable), App.ExcelService.UpdateTableApi));
             Views.Add("AddTableRow", new View(typeof(AddTableRow), App.ExcelService.AddTableRowApi));

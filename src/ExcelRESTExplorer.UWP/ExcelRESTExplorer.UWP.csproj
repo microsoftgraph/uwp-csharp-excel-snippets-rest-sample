@@ -109,6 +109,9 @@
     <Compile Include="Controls\ChartTitleViewer.xaml.cs">
       <DependentUpon>ChartTitleViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TableViewer.xaml.cs">
+      <DependentUpon>TableViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\NamedItemViewer.xaml.cs">
       <DependentUpon>NamedItemViewer.xaml</DependentUpon>
     </Compile>
@@ -168,6 +171,9 @@
     </Compile>
     <Compile Include="Views\CreateSession.xaml.cs">
       <DependentUpon>CreateSession.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GetTable.xaml.cs">
+      <DependentUpon>GetTable.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GetNamedItem.xaml.cs">
       <DependentUpon>GetNamedItem.xaml</DependentUpon>
@@ -259,6 +265,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\TableViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\NamedItemViewer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -329,6 +339,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CreateSession.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GetTable.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
