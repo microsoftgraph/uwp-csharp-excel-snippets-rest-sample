@@ -8,9 +8,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace ExcelServiceExplorer.Views
 {
-    public sealed partial class GetTableDataBodyRange : Page
+    public sealed partial class GetTableRange : Page
     {
-        public GetTableDataBodyRange()
+        public GetTableRange()
         {
             InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Disabled;

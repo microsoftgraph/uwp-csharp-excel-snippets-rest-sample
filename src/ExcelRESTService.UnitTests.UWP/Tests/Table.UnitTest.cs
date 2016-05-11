@@ -189,6 +189,31 @@ namespace ExcelRESTService.UnitTests.UWP
         }
 
         [TestMethod]
+        public async Task GetTableRange()
+        {
+            // Arrange
+            var item = await TestHelpers.UploadFile();
+
+            var values =
+                new object[]
+                {
+                        new object[] { "ID", "Created", "Username", "Note", "Odometer", "Distance" }
+                };
+
+            // Act
+            var range = await App.ExcelService.GetTableRangeAsync(item.Id, "LogEntries");
+            // Assert
+            Assert.AreEqual(27, range.RowCount, "RowCount is not correct");
+            Assert.AreEqual(6, range.ColumnCount, "ColumnCount is not correct");
+
+            Assert.AreEqual(((object[])(values[0]))[0], range.Values[0][0], $"First column is not {((object[])(values[0]))[0]}");
+            Assert.AreEqual(((object[])(values[0]))[1], range.Values[0][1], $"Second column is not {((object[])(values[0]))[1]}");
+            Assert.AreEqual(((object[])(values[0]))[2], range.Values[0][2], $"Third column is not {((object[])(values[0]))[2]}");
+            Assert.AreEqual(((object[])(values[0]))[3], range.Values[0][3], $"Fourth column is not {((object[])(values[0]))[3]}");
+            Assert.AreEqual(((object[])(values[0]))[4], range.Values[0][4], $"Fifth column is not {((object[])(values[0]))[4]}");
+        }
+
+        [TestMethod]
         public async Task GetTableHeaderRowRange()
         {
             // Arrange
@@ -203,6 +228,9 @@ namespace ExcelRESTService.UnitTests.UWP
             // Act
             var row = await App.ExcelService.GetTableHeaderRowRangeAsync(item.Id, "LogEntries");
             // Assert
+            Assert.AreEqual(1, row.RowCount, "RowCount is not correct");
+            Assert.AreEqual(6, row.ColumnCount, "ColumnCount is not correct");
+
             Assert.AreEqual(((object[])(values[0]))[0], row.Values[0][0], $"First column is not {((object[])(values[0]))[0]}");
             Assert.AreEqual(((object[])(values[0]))[1], row.Values[0][1], $"Second column is not {((object[])(values[0]))[1]}");
             Assert.AreEqual(((object[])(values[0]))[2], row.Values[0][2], $"Third column is not {((object[])(values[0]))[2]}");
@@ -225,6 +253,9 @@ namespace ExcelRESTService.UnitTests.UWP
             // Act
             var row = await App.ExcelService.GetTableHeaderRowRangeAsync(item.Id, "LogEntries", "", "$select=values");
             // Assert
+            Assert.AreEqual(26, row.RowCount, "RowCount is not correct");
+            Assert.AreEqual(6, row.ColumnCount, "ColumnCount is not correct");
+
             Assert.AreEqual(((object[])(values[0]))[0], row.Values[0][0], $"First column is not {((object[])(values[0]))[0]}");
             Assert.AreEqual(((object[])(values[0]))[1], row.Values[0][1], $"Second column is not {((object[])(values[0]))[1]}");
             Assert.AreEqual(((object[])(values[0]))[2], row.Values[0][2], $"Third column is not {((object[])(values[0]))[2]}");

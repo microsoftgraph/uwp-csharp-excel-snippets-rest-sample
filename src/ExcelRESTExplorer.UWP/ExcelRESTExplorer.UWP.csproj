@@ -193,11 +193,8 @@
     <Compile Include="Views\GetRange.xaml.cs">
       <DependentUpon>GetRange.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GetTableDataBodyRange.xaml.cs">
-      <DependentUpon>GetTableDataBodyRange.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GetTableHeaderRowRange.xaml.cs">
-      <DependentUpon>GetTableHeaderRowRange.xaml</DependentUpon>
+    <Compile Include="Views\GetTableRange.xaml.cs">
+      <DependentUpon>GetTableRange.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ListNamedItems.xaml.cs">
       <DependentUpon>ListNamedItems.xaml</DependentUpon>
@@ -370,11 +367,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\GetTableDataBodyRange.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\GetTableHeaderRowRange.xaml">
+    <Page Include="Views\GetTableRange.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

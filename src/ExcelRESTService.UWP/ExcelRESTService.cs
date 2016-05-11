@@ -379,6 +379,32 @@ namespace Office365Service.Excel
             return (TableRow)(await ((TableApi)(AddTableColumnApi)).InvokeAsync(id, tableName, sessionId));
         }
 
+        TableApi getTableRangeApi;
+
+        public IRestApi GetTableRangeApi
+        {
+            get
+            {
+                if (getTableRangeApi == null)
+                    getTableRangeApi =
+                        new TableApi(
+                            this,
+                            "Table: Get Range",
+                            "Gets the range object associated the table.",
+                            "GET",
+                            "/Range",
+                            typeof(Range)
+                        );
+                return getTableRangeApi;
+            }
+        }
+
+        public async Task<Range> GetTableRangeAsync(string id, string tableName, string sessionId = "", string queryParameters = "")
+        {
+            return (Range)(await ((TableApi)(GetTableRangeApi)).InvokeAsync(id, tableName, sessionId, queryParameters));
+        }
+
+
         // GetTableHeaderRowRangesync
         TableApi getTableHeaderRowRangeApi;
 

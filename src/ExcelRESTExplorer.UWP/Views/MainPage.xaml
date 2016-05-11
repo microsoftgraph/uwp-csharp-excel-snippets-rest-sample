@@ -112,6 +112,7 @@
                         <HyperlinkButton x:Name="UpdateTable" Content="Update table" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
                         <HyperlinkButton x:Name="AddTableRow" Content="Add table row" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
                         <HyperlinkButton x:Name="AddTableColumn" Content="Add table column" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
+                        <HyperlinkButton x:Name="GetTableRange" Content="Get table range" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
                         <HyperlinkButton x:Name="GetTableHeaderRowRange" Content="Get table header row range" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
                         <HyperlinkButton x:Name="GetTableDataBodyRange" Content="Get table data body range" HorizontalAlignment="Left" Click="{x:Bind ViewModel.GotoApiPage}" />
                     </StackPanel>

@@ -65,8 +65,9 @@ namespace ExcelServiceExplorer.ViewModel
             Views.Add("UpdateTable", new View(typeof(UpdateTable), App.ExcelService.UpdateTableApi));
             Views.Add("AddTableRow", new View(typeof(AddTableRow), App.ExcelService.AddTableRowApi));
             Views.Add("AddTableColumn", new View(typeof(AddTableColumn), App.ExcelService.AddTableColumnApi));
-            Views.Add("GetTableHeaderRowRange", new View(typeof(GetTableHeaderRowRange), App.ExcelService.GetTableHeaderRowRangeApi));
-            Views.Add("GetTableDataBodyRange", new View(typeof(GetTableDataBodyRange), App.ExcelService.GetTableDataBodyRangeApi));
+            Views.Add("GetTableRange", new View(typeof(GetTableRange), App.ExcelService.GetTableRangeApi));
+            Views.Add("GetTableHeaderRowRange", new View(typeof(GetTableRange), App.ExcelService.GetTableHeaderRowRangeApi));
+            Views.Add("GetTableDataBodyRange", new View(typeof(GetTableRange), App.ExcelService.GetTableDataBodyRangeApi));
 
             // Charts
             Views.Add("ListCharts", new View(typeof(ListCharts), App.ExcelService.ListChartsApi));
