@@ -17,6 +17,7 @@ using Office365Service.User;
 using Office365Service.OneDrive;
 
 using ExcelServiceExplorer.Views;
+using Microsoft.Identity.Client;
 
 namespace ExcelServiceExplorer
 {
@@ -29,24 +30,24 @@ namespace ExcelServiceExplorer
         // Azure AD Authentication Settings
 
         // The Client ID is used by the application to uniquely identify itself to Azure AD.
-        public const string ClientId = "67c64841-9567-4a6b-aec3-e34e7677ee9d"; // PROD
+        //public const string ClientId = "67c64841-9567-4a6b-aec3-e34e7677ee9d"; // PROD
 
         // const string tenant = "yourtenant.onmicrosoft.com";
         // const string authority = "https://login.microsoftonline.com/" + tenant;
-        public const string Authority = "organizations";
+        //public const string Authority = "organizations";
 
         // To authenticate to the directory Graph, the client needs to know its App ID URI.
         public const string Resource = "https://graph.microsoft.com";
 
         private const string UserApiVersion = "v1.0";
         private const string OneDriveApiVersion = "v1.0";
-        private const string ExcelApiVersion = "beta";
+        private const string ExcelApiVersion = "v1.0";
 
         // Windows10 universal apps require redirect URI in the format below
-        public string RedirectURI = string.Format("ms-appx-web://Microsoft.AAD.BrokerPlugIn/{0}", WebAuthenticationBroker.GetCurrentApplicationCallbackUri().Host.ToUpper());
+        //public string RedirectURI = string.Format("ms-appx-web://Microsoft.AAD.BrokerPlugIn/{0}", WebAuthenticationBroker.GetCurrentApplicationCallbackUri().Host.ToUpper());
 
-        public static WebAccountProvider WAP = null;
-        public static WebAccount UserAccount = null;
+        //public static WebAccountProvider WAP = null;
+        public static User UserAccount = null;
 
         // User Service Settings
         public static UserService UserService =
@@ -54,14 +55,16 @@ namespace ExcelServiceExplorer
                         async () =>
                         {
                             // Craft the token request for the Graph api
-                            WebTokenRequest wtr = new WebTokenRequest(WAP, string.Empty, ClientId);
-                            wtr.Properties.Add("resource", Resource);
+                            //WebTokenRequest wtr = new WebTokenRequest(WAP, string.Empty, ClientId);
+                            //wtr.Properties.Add("resource", Resource);
+
+                            var accessToken = await AuthenticationHelper.GetTokenForUserAsync();
 
                             // Perform the token request without showing any UX
-                            WebTokenRequestResult wtrr = await WebAuthenticationCoreManager.GetTokenSilentlyAsync(wtr, UserAccount);
-                            if (wtrr.ResponseStatus == WebTokenRequestStatus.Success)
+                            //WebTokenRequestResult wtrr = await WebAuthenticationCoreManager.GetTokenSilentlyAsync(wtr, UserAccount);
+                            if (accessToken != null)
                             {
-                                return wtrr.ResponseData[0].Token;
+                                return accessToken;
                             }
                             else
                             {
@@ -80,14 +83,16 @@ namespace ExcelServiceExplorer
                         async () =>
                         {
                             // Craft the token request for the Graph api
-                            WebTokenRequest wtr = new WebTokenRequest(WAP, string.Empty, ClientId);
-                            wtr.Properties.Add("resource", Resource);
+                            //WebTokenRequest wtr = new WebTokenRequest(WAP, string.Empty, ClientId);
+                            //wtr.Properties.Add("resource", Resource);
+
+                            var accessToken = await AuthenticationHelper.GetTokenForUserAsync();
 
                             // Perform the token request without showing any UX
-                            WebTokenRequestResult wtrr = await WebAuthenticationCoreManager.GetTokenSilentlyAsync(wtr, UserAccount);
-                            if (wtrr.ResponseStatus == WebTokenRequestStatus.Success)
+                            //WebTokenRequestResult wtrr = await WebAuthenticationCoreManager.GetTokenSilentlyAsync(wtr, UserAccount);
+                            if (accessToken != null)
                             {
-                                return wtrr.ResponseData[0].Token;
+                                return accessToken;
                             }
                             else
                             {
@@ -102,23 +107,25 @@ namespace ExcelServiceExplorer
         // Excel Service Settings
         public static ExcelRESTService ExcelService =
             new ExcelRESTService(
-                    async () =>
-                    {
-                        // Craft the token request for the Graph api
-                        WebTokenRequest wtr = new WebTokenRequest(WAP, string.Empty, ClientId);
-                        wtr.Properties.Add("resource", Resource);
+                        async () =>
+                        {
+                            // Craft the token request for the Graph api
+                            //WebTokenRequest wtr = new WebTokenRequest(WAP, string.Empty, ClientId);
+                            //wtr.Properties.Add("resource", Resource);
 
-                        // Perform the token request without showing any UX
-                        WebTokenRequestResult wtrr = await WebAuthenticationCoreManager.GetTokenSilentlyAsync(wtr, UserAccount);
-                        if (wtrr.ResponseStatus == WebTokenRequestStatus.Success)
-                        {
-                            return wtrr.ResponseData[0].Token;
+                            var accessToken = await AuthenticationHelper.GetTokenForUserAsync();
+
+                            // Perform the token request without showing any UX
+                            //WebTokenRequestResult wtrr = await WebAuthenticationCoreManager.GetTokenSilentlyAsync(wtr, UserAccount);
+                            if (accessToken != null)
+                            {
+                                return accessToken;
+                            }
+                            else
+                            {
+                                throw new Exception("We tried to get a token for the Graph as the account you are currently signed in, but it didn't work out. Please sign in as a different user.");
+                            }
                         }
-                        else
-                        {
-                            throw new Exception("We tried to get a token for the Graph as the account you are currently signed in, but it didn't work out. Please sign in as a different user.");
-                        }
-                    }
             )
             {
                 Url = $"{Resource}/{ExcelApiVersion}"

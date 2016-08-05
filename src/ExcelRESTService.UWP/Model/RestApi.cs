@@ -143,11 +143,11 @@ namespace Office365Service
         #region Methods
         public async Task<object> InvokeAsync()
         {
-            if ((Service.RequestViewModel != null))
-            {
-                Service.RequestViewModel.Api = null;
-                Service.RequestViewModel.Model.Api = this;
-            }
+            //if ((Service.RequestViewModel != null))
+            //{
+            //    Service.RequestViewModel.Api = null;
+            //    Service.RequestViewModel.Model.Api = this;
+            //}
 
             switch (Method)
             {
