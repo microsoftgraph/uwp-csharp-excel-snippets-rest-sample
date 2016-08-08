@@ -11,7 +11,7 @@ namespace ExcelRESTService.UnitTests.UWP
     public class AuthenticationHelper
     {
         // The Client ID is used by the application to uniquely identify itself to the v2.0 authentication endpoint.
-        static string clientId = "02139874-fa17-4b59-88a8-717796ced4ba";
+        static string clientId = "";
 
         public static PublicClientApplication IdentityClientApp = new PublicClientApplication(clientId);
 
@@ -43,6 +43,7 @@ namespace ExcelRESTService.UnitTests.UWP
                 // save user ID in local storage
                 _settings.Values["userID"] = authResult.User.UniqueId;
                 _settings.Values["login_hint"] = authResult.User.Name;
+                App.UserAccount = authResult.User;
             }
 
             catch (Exception)

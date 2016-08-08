@@ -43,6 +43,7 @@ namespace ExcelServiceExplorer
                 // save user ID in local storage
                 _settings.Values["userID"] = authResult.User.UniqueId;
                 _settings.Values["login_hint"] = authResult.User.Name;
+                App.UserAccount = authResult.User;
             }
 
             catch (Exception)
