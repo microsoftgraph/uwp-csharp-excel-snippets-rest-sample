@@ -29,9 +29,9 @@ namespace ExcelServiceExplorer
             var scopes = new string[]
 
              {
-                            "https://graph.microsoft.com/User.Read",
-                            "https://graph.microsoft.com/User.ReadBasic.All",
-                            "https://graph.microsoft.com/Files.ReadWrite",
+                            "User.Read",
+                            "User.ReadBasic.All",
+                            "Files.ReadWrite",
 
 
              };
