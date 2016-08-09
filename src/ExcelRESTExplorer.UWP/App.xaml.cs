@@ -27,15 +27,6 @@ namespace ExcelServiceExplorer
     sealed partial class App : Template10.Common.BootStrapper
     {
 
-        // Azure AD Authentication Settings
-
-        // The Client ID is used by the application to uniquely identify itself to Azure AD.
-        //public const string ClientId = "67c64841-9567-4a6b-aec3-e34e7677ee9d"; // PROD
-
-        // const string tenant = "yourtenant.onmicrosoft.com";
-        // const string authority = "https://login.microsoftonline.com/" + tenant;
-        //public const string Authority = "organizations";
-
         // To authenticate to the directory Graph, the client needs to know its App ID URI.
         public const string Resource = "https://graph.microsoft.com";
 
@@ -43,10 +34,6 @@ namespace ExcelServiceExplorer
         private const string OneDriveApiVersion = "v1.0";
         private const string ExcelApiVersion = "v1.0";
 
-        // Windows10 universal apps require redirect URI in the format below
-        //public string RedirectURI = string.Format("ms-appx-web://Microsoft.AAD.BrokerPlugIn/{0}", WebAuthenticationBroker.GetCurrentApplicationCallbackUri().Host.ToUpper());
-
-        //public static WebAccountProvider WAP = null;
         public static User UserAccount = null;
 
         // User Service Settings
@@ -54,14 +41,9 @@ namespace ExcelServiceExplorer
                 new UserService(
                         async () =>
                         {
-                            // Craft the token request for the Graph api
-                            //WebTokenRequest wtr = new WebTokenRequest(WAP, string.Empty, ClientId);
-                            //wtr.Properties.Add("resource", Resource);
 
                             var accessToken = await AuthenticationHelper.GetTokenForUserAsync();
 
-                            // Perform the token request without showing any UX
-                            //WebTokenRequestResult wtrr = await WebAuthenticationCoreManager.GetTokenSilentlyAsync(wtr, UserAccount);
                             if (accessToken != null)
                             {
                                 return accessToken;
@@ -82,14 +64,9 @@ namespace ExcelServiceExplorer
                 new OneDriveService(
                         async () =>
                         {
-                            // Craft the token request for the Graph api
-                            //WebTokenRequest wtr = new WebTokenRequest(WAP, string.Empty, ClientId);
-                            //wtr.Properties.Add("resource", Resource);
 
                             var accessToken = await AuthenticationHelper.GetTokenForUserAsync();
 
-                            // Perform the token request without showing any UX
-                            //WebTokenRequestResult wtrr = await WebAuthenticationCoreManager.GetTokenSilentlyAsync(wtr, UserAccount);
                             if (accessToken != null)
                             {
                                 return accessToken;
@@ -109,14 +86,9 @@ namespace ExcelServiceExplorer
             new ExcelRESTService(
                         async () =>
                         {
-                            // Craft the token request for the Graph api
-                            //WebTokenRequest wtr = new WebTokenRequest(WAP, string.Empty, ClientId);
-                            //wtr.Properties.Add("resource", Resource);
 
                             var accessToken = await AuthenticationHelper.GetTokenForUserAsync();
 
-                            // Perform the token request without showing any UX
-                            //WebTokenRequestResult wtrr = await WebAuthenticationCoreManager.GetTokenSilentlyAsync(wtr, UserAccount);
                             if (accessToken != null)
                             {
                                 return accessToken;

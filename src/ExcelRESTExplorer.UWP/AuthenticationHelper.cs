@@ -38,7 +38,9 @@ namespace ExcelServiceExplorer
 
             try
             {
-                authResult = await IdentityClientApp.AcquireTokenSilentAsync(scopes);
+                //Specify the "organizations" authority, for now, because Excel API currently works only with work and school accounts.
+                string userId = (string)_settings.Values["userID"];
+                authResult = await IdentityClientApp.AcquireTokenSilentAsync(scopes, userId, "https://login.microsoftonline.com/organizations/", null, false);
                 TokenForUser = authResult.Token;
                 // save user ID in local storage
                 _settings.Values["userID"] = authResult.User.UniqueId;
@@ -46,12 +48,12 @@ namespace ExcelServiceExplorer
                 App.UserAccount = authResult.User;
             }
 
-            catch (Exception)
+            catch (Exception e)
             {
                 if (TokenForUser == null || Expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
                 {
-                    authResult = await IdentityClientApp.AcquireTokenAsync(scopes);
-
+                    //Specify the "organizations" authority, for now, because Excel API currently works only with work and school accounts.
+                    authResult = await IdentityClientApp.AcquireTokenAsync(scopes, "", UiOptions.SelectAccount, null, null, "https://login.microsoftonline.com/organizations/", null);
                     TokenForUser = authResult.Token;
                     Expiration = authResult.ExpiresOn;
                     // save user ID in local storage
