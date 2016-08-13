@@ -11,7 +11,7 @@ namespace ExcelServiceExplorer
     public class AuthenticationHelper
     {
         // The Client ID is used by the application to uniquely identify itself to the v2.0 authentication endpoint.
-        static string clientId = "";
+        static string clientId = "67c64841-9567-4a6b-aec3-e34e7677ee9d";
 
         public static PublicClientApplication IdentityClientApp = new PublicClientApplication(clientId);
 
@@ -27,22 +27,19 @@ namespace ExcelServiceExplorer
         {
             AuthenticationResult authResult;
             var scopes = new string[]
-
-             {
-                            "User.Read",
-                            "User.ReadBasic.All",
-                            "Files.ReadWrite",
-
-
-             };
+            {
+                "User.Read",
+                "User.ReadBasic.All",
+                "Files.ReadWrite",
+            };
 
             try
             {
-                //Specify the "organizations" authority, for now, because Excel API currently works only with work and school accounts.
+                // Specify the "organizations" authority, for now, because Excel API currently works only with work and school accounts.
                 string userId = (string)_settings.Values["userID"];
                 authResult = await IdentityClientApp.AcquireTokenSilentAsync(scopes, userId, "https://login.microsoftonline.com/organizations/", null, false);
                 TokenForUser = authResult.Token;
-                // save user ID in local storage
+                // Save user ID in local storage
                 _settings.Values["userID"] = authResult.User.UniqueId;
                 _settings.Values["login_hint"] = authResult.User.Name;
                 App.UserAccount = authResult.User;
@@ -52,11 +49,11 @@ namespace ExcelServiceExplorer
             {
                 if (TokenForUser == null || Expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
                 {
-                    //Specify the "organizations" authority, for now, because Excel API currently works only with work and school accounts.
+                    // Specify the "organizations" authority, for now, because Excel API currently works only with work and school accounts.
                     authResult = await IdentityClientApp.AcquireTokenAsync(scopes, "", UiOptions.SelectAccount, null, null, "https://login.microsoftonline.com/organizations/", null);
                     TokenForUser = authResult.Token;
                     Expiration = authResult.ExpiresOn;
-                    // save user ID in local storage
+                    // Save user ID in local storage
                     _settings.Values["userID"] = authResult.User.UniqueId;
                     _settings.Values["login_hint"] = authResult.User.Name;
                     App.UserAccount = authResult.User;

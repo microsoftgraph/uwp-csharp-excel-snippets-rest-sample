@@ -11,7 +11,7 @@ namespace ExcelRESTService.UnitTests.UWP
     public class AuthenticationHelper
     {
         // The Client ID is used by the application to uniquely identify itself to the v2.0 authentication endpoint.
-        static string clientId = "";
+        static string clientId = "67c64841-9567-4a6b-aec3-e34e7677ee9d";
 
         public static PublicClientApplication IdentityClientApp = new PublicClientApplication(clientId);
 

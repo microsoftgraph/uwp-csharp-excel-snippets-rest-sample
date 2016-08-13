@@ -4,17 +4,14 @@
  */
 
 using System;
+using System.Threading.Tasks;
 
 using Windows.UI.Xaml.Controls;
-using Windows.Security.Authentication.Web.Core;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
 
 using Template10.Controls;
 using Template10.Services.NavigationService;
-using Windows.UI.Xaml;
-using Windows.Storage;
-using System.Threading.Tasks;
-using Microsoft.Identity.Client;
 
 namespace ExcelServiceExplorer.Views
 {
@@ -53,7 +50,6 @@ namespace ExcelServiceExplorer.Views
                 MessageDialog messageDialog = new MessageDialog("We could not sign you in. Please try again.");
                 await messageDialog.ShowAsync();
             }
-
         }
 
         // Change the currently signed in user
@@ -74,8 +70,6 @@ namespace ExcelServiceExplorer.Views
                 MessageDialog messageDialog = new MessageDialog("We could not sign you in. Please try again.");
                 await messageDialog.ShowAsync();
             }
-
-
         }
 
         // Update the UX and the app settings to show that a user is signed in

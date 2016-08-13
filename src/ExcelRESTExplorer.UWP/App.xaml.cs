@@ -1,23 +1,19 @@
 using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 using Windows.UI.Xaml;
 using Windows.ApplicationModel.Activation;
-using Windows.Security.Credentials;
-using Windows.Security.Authentication.Web.Core;
-using Windows.Security.Authentication.Web;
 
 using Template10.Controls;
 
 using Microsoft.ApplicationInsights;
+using Microsoft.Identity.Client;
 
 using Office365Service.Excel;
 using Office365Service.User;
 using Office365Service.OneDrive;
 
 using ExcelServiceExplorer.Views;
-using Microsoft.Identity.Client;
 
 namespace ExcelServiceExplorer
 {
@@ -41,7 +37,6 @@ namespace ExcelServiceExplorer
                 new UserService(
                         async () =>
                         {
-
                             var accessToken = await AuthenticationHelper.GetTokenForUserAsync();
 
                             if (accessToken != null)
@@ -64,7 +59,6 @@ namespace ExcelServiceExplorer
                 new OneDriveService(
                         async () =>
                         {
-
                             var accessToken = await AuthenticationHelper.GetTokenForUserAsync();
 
                             if (accessToken != null)
@@ -86,7 +80,6 @@ namespace ExcelServiceExplorer
             new ExcelRESTService(
                         async () =>
                         {
-
                             var accessToken = await AuthenticationHelper.GetTokenForUserAsync();
 
                             if (accessToken != null)
@@ -104,7 +97,7 @@ namespace ExcelServiceExplorer
             };
 
         public App()
-            {
+        {
             // Initialize telemetry
             WindowsAppInitializer.InitializeAsync();
 
@@ -131,10 +124,8 @@ namespace ExcelServiceExplorer
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
             // long-running startup tasks go here
-
             NavigationService.Navigate(typeof(MainPage));
             await Task.CompletedTask;
         }
     }
 }
-
