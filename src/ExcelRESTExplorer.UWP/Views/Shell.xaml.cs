@@ -58,7 +58,14 @@ namespace ExcelServiceExplorer.Views
             AuthenticationHelper.SignOut();
             UpdateUXonSignOut();
 
-            var accessToken = await AuthenticationHelper.GetTokenForUserAsync();
+            String accessToken = null;
+            try
+            {
+                 accessToken = await AuthenticationHelper.GetTokenForUserAsync();
+            }
+            catch
+            {
+            }
 
             if (accessToken != null)
             {
