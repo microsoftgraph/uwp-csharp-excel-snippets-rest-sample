@@ -109,7 +109,7 @@ namespace ExcelRESTService.UnitTests.UWP
             var values =
                 new object[]
                 {
-                    new object[] { (int)1, DateTime.Now.ToString(), App.UserAccount.UserName, "Work", (Double)36000.5, null }
+                    new object[] { (int)1, DateTime.Now.ToString(), App.UserAccount.Name, "Work", (Double)36000.5, null }
                 };
 
             // Act
@@ -141,7 +141,7 @@ namespace ExcelRESTService.UnitTests.UWP
                 var values =
                     new object[]
                     {
-                        new object[] { (int)(i+1), DateTime.Now.ToString(), App.UserAccount.UserName, "Work", (Double)(36000.5 + i * 100), null }
+                        new object[] { (int)(i+1), DateTime.Now.ToString(), App.UserAccount.Name, "Work", (Double)(36000.5 + i * 100), null }
                     };
 
                 var row = await App.ExcelService.AddTableRowAsync(item.Id, "LogEntries", values);

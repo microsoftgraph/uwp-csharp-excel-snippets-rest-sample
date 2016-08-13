@@ -21,7 +21,7 @@ namespace ExcelServiceExplorer.Views
             App.ExcelService.RequestViewModel.Api.BodyProperties["values"] =
                 new object[]
                 {
-                    new object[] { 1, DateTime.Now.ToString(), App.UserAccount.UserName, "Work", 36000, null }
+                    new object[] { 1, DateTime.Now.ToString(), App.UserAccount.Name, "Work", 36000, null }
                 };
         }
     }

@@ -106,6 +106,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AuthenticationHelper.cs" />
     <Compile Include="Controls\ChartTitleViewer.xaml.cs">
       <DependentUpon>ChartTitleViewer.xaml</DependentUpon>
     </Compile>
