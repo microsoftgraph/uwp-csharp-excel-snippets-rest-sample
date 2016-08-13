@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Identity.Client;
+
 using Windows.Storage;
+
+using Microsoft.Identity.Client;
 
 namespace ExcelServiceExplorer
 {
     public class AuthenticationHelper
     {
         // The Client ID is used by the application to uniquely identify itself to the v2.0 authentication endpoint.
-        static string clientId = "67c64841-9567-4a6b-aec3-e34e7677ee9d";
+        static string clientId = "40e95fb5-7b03-429c-a12c-4310b3e7a3b0";
 
         public static PublicClientApplication IdentityClientApp = new PublicClientApplication(clientId);
 
