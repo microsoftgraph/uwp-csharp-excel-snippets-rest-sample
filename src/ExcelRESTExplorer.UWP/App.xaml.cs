@@ -40,7 +40,7 @@ namespace ExcelServiceExplorer
 
         private const string UserApiVersion = "v1.0";
         private const string OneDriveApiVersion = "v1.0";
-        private const string ExcelApiVersion = "beta";
+        private const string ExcelApiVersion = "v1.0";
 
         // Windows10 universal apps require redirect URI in the format below
         public string RedirectURI = string.Format("ms-appx-web://Microsoft.AAD.BrokerPlugIn/{0}", WebAuthenticationBroker.GetCurrentApplicationCallbackUri().Host.ToUpper());

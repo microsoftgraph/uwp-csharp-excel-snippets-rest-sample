@@ -251,9 +251,9 @@ namespace ExcelRESTService.UnitTests.UWP
                 };
 
             // Act
-            var row = await App.ExcelService.GetTableHeaderRowRangeAsync(item.Id, "LogEntries", "", "$select=values");
+            var row = await App.ExcelService.GetTableHeaderRowRangeAsync(item.Id, "LogEntries", "", "$select=values,rowcount,columncount");
             // Assert
-            Assert.AreEqual(26, row.RowCount, "RowCount is not correct");
+            Assert.AreEqual(1, row.RowCount, "RowCount is not correct");
             Assert.AreEqual(6, row.ColumnCount, "ColumnCount is not correct");
 
             Assert.AreEqual(((object[])(values[0]))[0], row.Values[0][0], $"First column is not {((object[])(values[0]))[0]}");

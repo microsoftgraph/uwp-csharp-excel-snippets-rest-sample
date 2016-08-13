@@ -145,7 +145,6 @@ namespace Office365Service
         {
             if ((Service.RequestViewModel != null))
             {
-                Service.RequestViewModel.Api = null;
                 Service.RequestViewModel.Model.Api = this;
             }
 

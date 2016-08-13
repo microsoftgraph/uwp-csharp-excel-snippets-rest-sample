@@ -27,8 +27,6 @@ namespace Office365Service.ViewModel
             BodyProperties.CollectionChanged += BodyProperties_CollectionChanged;
             BodyProperties.PropertyChanged += BodyProperties_PropertyChanged;
         }
-
-
         #endregion
 
         #region Properties
