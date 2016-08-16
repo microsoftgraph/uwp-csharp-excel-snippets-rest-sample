@@ -30,7 +30,7 @@ namespace ExcelRESTService.UnitTests.UWP
             // Act
             var namedItems = await App.ExcelService.ListNamedItemsAsync(item.Id);
             // Assert
-            Assert.AreEqual(9, namedItems.Length, "Named item count is not 9");
+            Assert.AreEqual(8, namedItems.Length, "Named item count is not correct");
         }
 
         [TestMethod]
