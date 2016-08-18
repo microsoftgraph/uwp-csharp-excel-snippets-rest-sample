@@ -36,15 +36,18 @@ namespace ExcelRESTService.UnitTests.UWP
         {
             // Arrange
             var item = await TestHelpers.UploadFile();
+            var sessionId = (await App.ExcelService.CreateSessionAsync(item.Id)).Id;
 
             var newSheetName = "NewSheet";
+
             // Act
-            var worksheet = await App.ExcelService.AddWorksheetAsync(item.Id, newSheetName);
+            var worksheet = await App.ExcelService.AddWorksheetAsync(item.Id, newSheetName, sessionId);
 
             // Assert
-            await Task.Delay(60000);
+            var worksheets = await App.ExcelService.ListWorksheetsAsync(item.Id, sessionId);
 
-            var worksheets = await App.ExcelService.ListWorksheetsAsync(item.Id);
+            await App.ExcelService.CloseSessionAsync(item.Id, sessionId);
+
             Assert.AreEqual(5, worksheets.Length, "Count of worksheets is not 5");
             Assert.AreEqual("Sheet1", worksheets[0].Name, "First worksheet is not named 'Sheet1'");
             Assert.AreEqual("Sheet2", worksheets[1].Name, "Second worksheet is not named 'Sheet2'");

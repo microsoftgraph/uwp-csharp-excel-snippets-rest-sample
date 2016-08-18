@@ -65,16 +65,18 @@ namespace ExcelRESTService.UnitTests.UWP
         {
             // Arrange
             var item = await TestHelpers.UploadFile();
+            var sessionId = (await App.ExcelService.CreateSessionAsync(item.Id)).Id;
 
             // Act
-            var table = await App.ExcelService.AddTableAsync(item.Id, "Sheet3!A1:B4", true);
-
-            await Task.Delay(30000);
+            var table = await App.ExcelService.AddTableAsync(item.Id, "Sheet3!A1:B4", true, sessionId);
 
             // Assert
             Assert.AreEqual("Table2", table.Name, "Name of new table is now 'Table2'");
 
-            var tables = await App.ExcelService.ListTablesAsync(item.Id);
+            var tables = await App.ExcelService.ListTablesAsync(item.Id, sessionId);
+
+            await App.ExcelService.CloseSessionAsync(item.Id, sessionId);
+
             Assert.AreEqual(2, tables.Length, "Count of tables is not 2");
         }
 
@@ -103,6 +105,7 @@ namespace ExcelRESTService.UnitTests.UWP
         {
             // Arrange
             var item = await TestHelpers.UploadFile();
+            var sessionId = (await App.ExcelService.CreateSessionAsync(item.Id)).Id;
 
             var tableName = "LogEntries";
 
@@ -113,7 +116,7 @@ namespace ExcelRESTService.UnitTests.UWP
                 };
 
             // Act
-            var row = await App.ExcelService.AddTableRowAsync(item.Id, tableName, values);
+            var row = await App.ExcelService.AddTableRowAsync(item.Id, tableName, values, null, sessionId);
             // Assert
             Assert.AreEqual(((object[])(values[0]))[0], row.Values[0][0], $"First column is not {((object[])(values[0]))[0]}");
             Assert.AreEqual(((object[])(values[0]))[2], row.Values[0][2], $"Third column is not {((object[])(values[0]))[2]}");
@@ -121,9 +124,10 @@ namespace ExcelRESTService.UnitTests.UWP
             Assert.AreEqual(((object[])(values[0]))[4], row.Values[0][4], $"Fifth column is not {((object[])(values[0]))[4]}");
             // TODO: Check value of calculated column
 
-            await Task.Delay(30000);
+            var dataBodyRange = await App.ExcelService.GetTableDataBodyRangeAsync(item.Id, tableName, sessionId);
 
-            var dataBodyRange = await App.ExcelService.GetTableDataBodyRangeAsync(item.Id, tableName);
+            await App.ExcelService.CloseSessionAsync(item.Id, sessionId);
+
             Assert.AreEqual(27, dataBodyRange.RowCount, "Table does not have 1 more row");
         }
 
@@ -132,6 +136,7 @@ namespace ExcelRESTService.UnitTests.UWP
         {
             // Arrange
             var item = await TestHelpers.UploadFile();
+            var sessionId = (await App.ExcelService.CreateSessionAsync(item.Id)).Id;
 
             var tableName = "LogEntries";
 
@@ -144,7 +149,7 @@ namespace ExcelRESTService.UnitTests.UWP
                         new object[] { (int)(i+1), DateTime.Now.ToString(), App.UserAccount.Name, "Work", (Double)(36000.5 + i * 100), null }
                     };
 
-                var row = await App.ExcelService.AddTableRowAsync(item.Id, "LogEntries", values);
+                var row = await App.ExcelService.AddTableRowAsync(item.Id, "LogEntries", values, null, sessionId);
 
                 // Assert
                 Assert.AreEqual(((object[])(values[0]))[0], row.Values[0][0], $"First column is not {((object[])(values[0]))[0]}");
@@ -154,10 +159,11 @@ namespace ExcelRESTService.UnitTests.UWP
                 // TODO: Check value of calculated column
             }
 
-            await Task.Delay(30000);
-
             // Assert
-            var dataBodyRange = await App.ExcelService.GetTableDataBodyRangeAsync(item.Id, tableName);
+            var dataBodyRange = await App.ExcelService.GetTableDataBodyRangeAsync(item.Id, tableName, sessionId);
+
+            await App.ExcelService.CloseSessionAsync(item.Id, sessionId);
+
             Assert.AreEqual(36, dataBodyRange.RowCount, "Table does not have 10 more rows");
         }
 
