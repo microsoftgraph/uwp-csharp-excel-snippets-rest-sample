@@ -33,14 +33,21 @@ namespace Microsoft.OneDrive
         public static Item MapFromJson(JObject json)
         {
             var item = new Item();
-            item.Id = RestApi.MapStringFromJson(json, "id");
-            item.Name = RestApi.MapStringFromJson(json, "name");
-            item.CTag = RestApi.MapStringFromJson(json, "cTag");
-            item.ETag = RestApi.MapStringFromJson(json, "eTag");
-            item.CreatedDateTime = DateTime.Parse(RestApi.MapStringFromJson(json, "createdDateTime")).ToLocalTime();
-            item.LastModifiedDateTime = DateTime.Parse(RestApi.MapStringFromJson(json, "lastModifiedDateTime")).ToLocalTime();
-            item.Size = (int)(RestApi.MapNumberFromJson(json, "size"));
-            item.WebUrl = RestApi.MapStringFromJson(json, "webUrl");
+            try
+            {
+                item.Id = RestApi.MapStringFromJson(json, "id");
+                item.Name = RestApi.MapStringFromJson(json, "name");
+                item.CTag = RestApi.MapStringFromJson(json, "cTag");
+                item.ETag = RestApi.MapStringFromJson(json, "eTag");                                
+                item.CreatedDateTime = json.GetValue("createdDateTime").Value<DateTime>();                
+                item.LastModifiedDateTime = json.GetValue("lastModifiedDateTime").Value<DateTime>();
+                item.Size = (int)(RestApi.MapNumberFromJson(json, "size"));
+                item.WebUrl = RestApi.MapStringFromJson(json, "webUrl");
+            }
+            catch (Exception e)
+            {
+                var exxx = e;
+            }
             return item;
         }
         #endregion
