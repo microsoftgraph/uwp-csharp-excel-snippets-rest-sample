@@ -14,7 +14,7 @@ This sample requires the following:
 
 ## Getting started ##
 
-Complete the these steps to run the sample:
+Complete these steps to run the sample:
 
   * Open the ExcelRESTExplorer.sln solution file in the src folder.
   * Hit F5 to Build and Start debugging
