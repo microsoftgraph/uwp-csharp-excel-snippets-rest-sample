@@ -1,3 +1,19 @@
+---
+page_type: sample
+products:
+- office-excel
+- ms-graph
+languages:
+- csharp
+- windows-uwp
+extensions:
+  contentType: samples
+  technologies:
+  - Microsoft Graph
+  services:
+  - Excel
+  createdDate: 3/23/2016 12:31:30 PM
+---
 # Excel REST API Explorer
 
 This sample is a [Universal Windows Platform](http://dev.windows.com) application that demonstrates how to use the [Excel REST API](https://github.com/OfficeDev/microsoft-graph-docs/tree/beta) 
