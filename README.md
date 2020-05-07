@@ -1,4 +1,4 @@
-# Excel REST API Explorer
+# [ARCHIVED] Excel REST API Explorer
 
 ## IMPORTANT
 
